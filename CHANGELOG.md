@@ -9,7 +9,10 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ### Added
 
-- Icons to all 
+- First SOSXR fork from official XCharts git repository
+- Icons to all scripts
+- Added New InputSystem as a requirement
+- Demo Scene
 
 ### Fixed
 
@@ -17,7 +20,8 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ### Changed
 
--
+- Set English Readme as default readme
+- Min supported version of Unity is 2020.3
 
 ### Removed
 

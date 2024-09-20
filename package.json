@@ -6,7 +6,7 @@
   "version": "3.11.3",
   "date": "20240801",
   "checkdate": "20240801",
-  "unity": "2018.3",
+  "unity": "2020.3",
   "description": "A fork of the XCharts charting and data visualization library for Unity. Support line chart, bar chart, pie chart, radar chart, scatter chart, heatmap chart, ring chart, candlestick chart, polar chart and parallel coordinates.",
   "keywords": [
     "chart",
@@ -15,6 +15,9 @@
     "unity-chart",
     "data-visualization"
   ],
+  "dependencies": {
+    "com.unity.inputsystem": "1.8.1"
+  },
   "category": "chart",
   "repository": {
     "type": "git",
