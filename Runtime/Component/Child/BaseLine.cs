@@ -1,33 +1,62 @@
+using System;
 using UnityEngine;
+
 
 namespace XCharts.Runtime
 {
     /// <summary>
-    /// Settings related to base line.
-    /// ||线条基础配置。
+    ///     Settings related to base line.
+    ///     ||线条基础配置。
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public class BaseLine : ChildComponent
     {
         [SerializeField] protected bool m_Show;
-        [SerializeField] protected LineStyle m_LineStyle = new LineStyle();
+        [SerializeField] protected LineStyle m_LineStyle = new();
+
+
+        public BaseLine()
+        {
+            lineStyle = new LineStyle();
+        }
+
+
+        public BaseLine(bool show)
+        {
+            m_Show = show;
+        }
+
 
         /// <summary>
-        /// Set this to false to prevent the axis line from showing.
-        /// ||是否显示坐标轴轴线。
+        ///     Set this to false to prevent the axis line from showing.
+        ///     ||是否显示坐标轴轴线。
         /// </summary>
         public bool show
         {
-            get { return m_Show; }
-            set { if (PropertyUtil.SetStruct(ref m_Show, value)) SetVerticesDirty(); }
+            get => m_Show;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_Show, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
         }
+
         /// <summary>
-        /// 线条样式
+        ///     线条样式
         /// </summary>
         public LineStyle lineStyle
         {
-            get { return m_LineStyle; }
-            set { if (value != null) { m_LineStyle = value; SetVerticesDirty(); } }
+            get => m_LineStyle;
+            set
+            {
+                if (value != null)
+                {
+                    m_LineStyle = value;
+                    SetVerticesDirty();
+                }
+            }
         }
 
         public static BaseLine defaultBaseLine
@@ -39,19 +68,11 @@ namespace XCharts.Runtime
                     m_Show = true,
                     m_LineStyle = new LineStyle()
                 };
+
                 return axisLine;
             }
         }
 
-        public BaseLine()
-        {
-            lineStyle = new LineStyle();
-        }
-
-        public BaseLine(bool show) : base()
-        {
-            m_Show = show;
-        }
 
         public void Copy(BaseLine axisLine)
         {
@@ -59,20 +80,24 @@ namespace XCharts.Runtime
             lineStyle.Copy(axisLine.lineStyle);
         }
 
+
         public LineStyle.Type GetType(LineStyle.Type themeType)
         {
             return lineStyle.GetType(themeType);
         }
+
 
         public float GetWidth(float themeWidth)
         {
             return lineStyle.GetWidth(themeWidth);
         }
 
+
         public float GetLength(float themeLength)
         {
             return lineStyle.GetLength(themeLength);
         }
+
 
         public Color32 GetColor(Color32 themeColor)
         {

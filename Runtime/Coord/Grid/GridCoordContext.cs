@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     public class GridCoordContext : MainComponentContext
@@ -12,6 +13,6 @@ namespace XCharts.Runtime
         public Vector3 position;
         public Vector3 center;
         public bool isPointerEnter;
-        public List<ChartLabel> endLabelList = new List<ChartLabel>();
+        public List<ChartLabel> endLabelList = new();
     }
 }

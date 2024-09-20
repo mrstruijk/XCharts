@@ -1,5 +1,6 @@
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [SerieEditor(typeof(Bar))]
@@ -9,6 +10,7 @@ namespace XCharts.Editor
         {
             PropertyField("m_ColorBy");
             PropertyField("m_Stack");
+
             if (serie.IsUseCoord<PolarCoord>())
             {
                 PropertyField("m_PolarIndex");
@@ -18,10 +20,12 @@ namespace XCharts.Editor
                 PropertyField("m_XAxisIndex");
                 PropertyField("m_YAxisIndex");
             }
+
             PropertyField("m_BarType");
             PropertyField("m_BarWidth");
             PropertyField("m_BarGap");
             PropertyField("m_BarMaxWidth");
+
             if (serie.IsUseCoord<PolarCoord>())
             {
                 PropertyField("m_RoundCap");
@@ -29,13 +33,16 @@ namespace XCharts.Editor
             else
             {
                 PropertyField("m_BarPercentStack");
+
                 if (serie.barType == BarType.Zebra)
                 {
                     PropertyField("m_BarZebraWidth");
                     PropertyField("m_BarZebraGap");
                 }
             }
+
             PropertyField("m_Clip");
+
             PropertyFiledMore(() =>
             {
                 PropertyFieldLimitMin("m_MinShow", 0);
@@ -51,6 +58,7 @@ namespace XCharts.Editor
                 PropertyField("m_MinShowLabel");
                 PropertyField("m_MinShowLabelValue");
             });
+
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");
         }

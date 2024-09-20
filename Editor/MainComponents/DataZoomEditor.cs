@@ -1,6 +1,7 @@
 using UnityEditor;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [ComponentEditor(typeof(DataZoom))]
@@ -17,11 +18,13 @@ namespace XCharts.Editor
             ++EditorGUI.indentLevel;
             PropertyField("m_Orient");
             PropertyField("m_SupportInside");
+
             if (m_SupportInside.boolValue)
             {
                 PropertyField("m_SupportInsideScroll");
                 PropertyField("m_SupportInsideDrag");
             }
+
             PropertyField(m_SupportSlider);
             PropertyField(m_SupportMarquee);
             PropertyField("m_ZoomLock");
@@ -32,9 +35,22 @@ namespace XCharts.Editor
             PropertyField("m_StartLock");
             PropertyField("m_EndLock");
             PropertyField(m_MinShowNum);
-            if (m_Start.floatValue < 0) m_Start.floatValue = 0;
-            if (m_End.floatValue > 100) m_End.floatValue = 100;
-            if (m_MinShowNum.intValue < 0) m_MinShowNum.intValue = 0;
+
+            if (m_Start.floatValue < 0)
+            {
+                m_Start.floatValue = 0;
+            }
+
+            if (m_End.floatValue > 100)
+            {
+                m_End.floatValue = 100;
+            }
+
+            if (m_MinShowNum.intValue < 0)
+            {
+                m_MinShowNum.intValue = 0;
+            }
+
             if (m_SupportSlider.boolValue)
             {
                 PropertyField("m_ShowDataShadow");
@@ -50,14 +66,15 @@ namespace XCharts.Editor
                 PropertyField("m_LineStyle");
                 PropertyField("m_AreaStyle");
                 PropertyField("m_LabelStyle");
-                PropertyListField("m_XAxisIndexs", true);
-                PropertyListField("m_YAxisIndexs", true);
+                PropertyListField("m_XAxisIndexs");
+                PropertyListField("m_YAxisIndexs");
             }
             else
             {
-                PropertyListField("m_XAxisIndexs", true);
-                PropertyListField("m_YAxisIndexs", true);
+                PropertyListField("m_XAxisIndexs");
+                PropertyListField("m_YAxisIndexs");
             }
+
             PropertyField("m_MarqueeStyle");
             --EditorGUI.indentLevel;
         }

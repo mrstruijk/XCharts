@@ -1,17 +1,20 @@
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
+
 
 namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(StateStyle), true)]
     public class StateStyleDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "StateStyle"; } }
+        public override string ClassName => "StateStyle";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
@@ -26,13 +29,19 @@ namespace XCharts.Editor
             }
         }
 
-        protected virtual void OnCustomGUI(SerializedProperty prop) { }
+
+        protected virtual void OnCustomGUI(SerializedProperty prop)
+        {
+        }
     }
+
 
     [CustomPropertyDrawer(typeof(EmphasisStyle), true)]
     public class EmphasisStyleDrawer : StateStyleDrawer
     {
-        public override string ClassName { get { return "EmphasisStyle"; } }
+        public override string ClassName => "EmphasisStyle";
+
+
         protected override void OnCustomGUI(SerializedProperty prop)
         {
             PropertyField(prop, "m_Scale");
@@ -41,15 +50,17 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(BlurStyle), true)]
     public class BlurStyleDrawer : StateStyleDrawer
     {
-        public override string ClassName { get { return "BlurStyle"; } }
+        public override string ClassName => "BlurStyle";
     }
+
 
     [CustomPropertyDrawer(typeof(SelectStyle), true)]
     public class SelectStyleDrawer : StateStyleDrawer
     {
-        public override string ClassName { get { return "SelectStyle"; } }
+        public override string ClassName => "SelectStyle";
     }
 }

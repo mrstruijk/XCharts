@@ -6,12 +6,13 @@ using UnityEngine.UI;
 using Input = XCharts.Runtime.InputHelper;
 #endif
 
+
 namespace XCharts.Runtime
 {
     [RequireComponent(typeof(CanvasRenderer))]
     public partial class BaseGraph : MaskableGraphic, IPointerDownHandler, IPointerUpHandler,
-        IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
-        IDragHandler, IEndDragHandler, IScrollHandler
+                                     IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IPointerClickHandler,
+                                     IDragHandler, IEndDragHandler, IScrollHandler
     {
         [SerializeField] protected bool m_EnableTextMeshPro = false;
 
@@ -28,7 +29,7 @@ namespace XCharts.Runtime
         protected Vector2 m_GraphPivot;
         protected Vector2 m_GraphSizeDelta;
         protected Vector2 m_GraphAnchoredPosition;
-        protected Rect m_GraphRect = new Rect(0, 0, 0, 0);
+        protected Rect m_GraphRect = new(0, 0, 0, 0);
         protected bool m_RefreshChart = false;
         protected bool m_ForceOpenRaycastTarget;
         protected bool m_IsControlledByLayout = false;
@@ -49,16 +50,127 @@ namespace XCharts.Runtime
         protected Action<PointerEventData, BaseGraph> m_OnEndDrag;
         protected Action<PointerEventData, BaseGraph> m_OnScroll;
 
-        public virtual HideFlags chartHideFlags { get { return HideFlags.None; } }
-
         private ScrollRect m_ScrollRect;
 
-        public Painter painter { get { return m_Painter; } }
+        public virtual HideFlags chartHideFlags => HideFlags.None;
+
+        public Painter painter => m_Painter;
+
+
+        public virtual void OnBeginDrag(PointerEventData eventData)
+        {
+            if (m_ScrollRect != null)
+            {
+                m_ScrollRect.OnBeginDrag(eventData);
+            }
+
+            if (m_OnBeginDrag != null)
+            {
+                m_OnBeginDrag(eventData, this);
+            }
+        }
+
+
+        public virtual void OnDrag(PointerEventData eventData)
+        {
+            if (m_ScrollRect != null)
+            {
+                m_ScrollRect.OnDrag(eventData);
+            }
+
+            if (m_OnDrag != null)
+            {
+                m_OnDrag(eventData, this);
+            }
+        }
+
+
+        public virtual void OnEndDrag(PointerEventData eventData)
+        {
+            if (m_ScrollRect != null)
+            {
+                m_ScrollRect.OnEndDrag(eventData);
+            }
+
+            if (m_OnEndDrag != null)
+            {
+                m_OnEndDrag(eventData, this);
+            }
+        }
+
+
+        public virtual void OnPointerClick(PointerEventData eventData)
+        {
+            pointerClickEventData = eventData;
+            clickPos = MousePos2ChartPos(pointerClickEventData.position);
+
+            if (m_OnPointerClick != null)
+            {
+                m_OnPointerClick(eventData, this);
+            }
+        }
+
+
+        public virtual void OnPointerDown(PointerEventData eventData)
+        {
+            if (m_OnPointerDown != null)
+            {
+                m_OnPointerDown(eventData, this);
+            }
+        }
+
+
+        public virtual void OnPointerEnter(PointerEventData eventData)
+        {
+            pointerMoveEventData = eventData;
+
+            if (m_OnPointerEnter != null)
+            {
+                m_OnPointerEnter(eventData, this);
+            }
+        }
+
+
+        public virtual void OnPointerExit(PointerEventData eventData)
+        {
+            pointerMoveEventData = null;
+            pointerClickEventData = null;
+
+            if (m_OnPointerExit != null)
+            {
+                m_OnPointerExit(eventData, this);
+            }
+        }
+
+
+        public virtual void OnPointerUp(PointerEventData eventData)
+        {
+            if (m_OnPointerUp != null)
+            {
+                m_OnPointerUp(eventData, this);
+            }
+        }
+
+
+        public virtual void OnScroll(PointerEventData eventData)
+        {
+            if (m_ScrollRect != null)
+            {
+                m_ScrollRect.OnScroll(eventData);
+            }
+
+            if (m_OnScroll != null)
+            {
+                m_OnScroll(eventData, this);
+            }
+        }
+
 
         protected virtual void InitComponent()
         {
             InitPainter();
         }
+
 
         protected override void Awake()
         {
@@ -70,14 +182,17 @@ namespace XCharts.Runtime
             CheckIsInScrollRect();
         }
 
+
         protected override void Start()
         {
             m_RefreshChart = true;
         }
 
+
         protected virtual void Update()
         {
             CheckSize();
+
             if (m_IsOnValidate)
             {
                 m_IsOnValidate = false;
@@ -89,21 +204,24 @@ namespace XCharts.Runtime
             {
                 CheckComponent();
             }
+
             CheckPointerPos();
             CheckRefreshChart();
             CheckRefreshPainter();
         }
 
+
         protected virtual void SetAllComponentDirty()
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             if (!Application.isPlaying)
             {
                 m_IsOnValidate = true;
             }
-#endif
+            #endif
             m_PainerDirty = true;
         }
+
 
         protected virtual void CheckComponent()
         {
@@ -114,13 +232,14 @@ namespace XCharts.Runtime
             }
         }
 
+
         private void CheckTextMeshPro()
         {
-#if dUI_TextMeshPro
+            #if dUI_TextMeshPro
                 var enableTextMeshPro = true;
-#else
+            #else
             var enableTextMeshPro = false;
-#endif
+            #endif
             if (m_EnableTextMeshPro != enableTextMeshPro)
             {
                 m_EnableTextMeshPro = enableTextMeshPro;
@@ -128,41 +247,34 @@ namespace XCharts.Runtime
             }
         }
 
-#if UNITY_EDITOR
-        protected override void Reset()
-        {
-            base.Reset();
-        }
-
-        protected override void OnValidate()
-        {
-            base.OnValidate();
-            m_IsOnValidate = true;
-        }
-#endif
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            for (int i = transform.childCount - 1; i >= 0; i--)
+
+            for (var i = transform.childCount - 1; i >= 0; i--)
             {
                 DestroyImmediate(transform.GetChild(i).gameObject);
             }
         }
+
 
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
         }
 
+
         protected virtual void InitPainter()
         {
             m_Painter = ChartHelper.AddPainterObject("painter_b", transform, m_GraphMinAnchor,
                 m_GraphMaxAnchor, m_GraphPivot, new Vector2(m_GraphWidth, m_GraphHeight), chartHideFlags, 1);
+
             m_Painter.type = Painter.Type.Base;
             m_Painter.onPopulateMesh = OnDrawPainterBase;
             m_Painter.transform.SetSiblingIndex(0);
         }
+
 
         private void CheckSize()
         {
@@ -182,12 +294,14 @@ namespace XCharts.Runtime
             {
                 UpdateSize();
             }
+
             if (!ChartHelper.IsValueEqualsVector3(m_LastLocalPosition, transform.localPosition))
             {
                 m_LastLocalPosition = transform.localPosition;
                 OnLocalPositionChanged();
             }
         }
+
 
         protected void UpdateSize()
         {
@@ -201,6 +315,7 @@ namespace XCharts.Runtime
 
             rectTransform.pivot = LayerHelper.ResetChartPositionAndPivot(m_GraphMinAnchor, m_GraphMaxAnchor,
                 m_GraphWidth, m_GraphHeight, ref m_GraphX, ref m_GraphY);
+
             m_GraphPivot = rectTransform.pivot;
 
             m_GraphRect.x = m_GraphX;
@@ -213,32 +328,39 @@ namespace XCharts.Runtime
             OnSizeChanged();
         }
 
+
         private void CheckPointerPos()
         {
-            if (canvas == null) return;
+            if (canvas == null)
+            {
+                return;
+            }
+
             if (pointerMoveEventData != null)
             {
                 pointerPos = MousePos2ChartPos(pointerMoveEventData.position);
             }
         }
 
+
         private Vector2 MousePos2ChartPos(Vector2 mousePos)
         {
             Vector2 local;
+
             if (!ScreenPointToChartPoint(mousePos, out local))
             {
                 return Vector2.zero;
             }
-            else
-            {
-                return local;
-            }
+
+            return local;
         }
+
 
         protected virtual void CheckIsInScrollRect()
         {
             m_ScrollRect = GetComponentInParent<ScrollRect>();
         }
+
 
         protected virtual void CheckRefreshChart()
         {
@@ -249,84 +371,63 @@ namespace XCharts.Runtime
             }
         }
 
+
         protected virtual void CheckRefreshPainter()
         {
-            if (m_Painter == null) return;
+            if (m_Painter == null)
+            {
+                return;
+            }
+
             m_Painter.CheckRefresh();
         }
 
+
         internal virtual void RefreshPainter(Painter painter)
         {
-            if (painter == null) return;
+            if (painter == null)
+            {
+                return;
+            }
+
             painter.Refresh();
         }
+
 
         protected virtual void OnSizeChanged()
         {
             m_RefreshChart = true;
         }
 
-        protected virtual void OnLocalPositionChanged() { }
+
+        protected virtual void OnLocalPositionChanged()
+        {
+        }
+
 
         protected virtual void OnDrawPainterBase(VertexHelper vh, Painter painter)
         {
             DrawPainterBase(vh);
         }
 
-        protected virtual void DrawPainterBase(VertexHelper vh) { }
 
-        public virtual void OnPointerClick(PointerEventData eventData)
+        protected virtual void DrawPainterBase(VertexHelper vh)
         {
-            pointerClickEventData = eventData;
-            clickPos = MousePos2ChartPos(pointerClickEventData.position);
-            if (m_OnPointerClick != null) m_OnPointerClick(eventData, this);
         }
 
-        public virtual void OnPointerDown(PointerEventData eventData)
+
+        #if UNITY_EDITOR
+        protected override void Reset()
         {
-            if (m_OnPointerDown != null) m_OnPointerDown(eventData, this);
+            base.Reset();
         }
 
-        public virtual void OnPointerUp(PointerEventData eventData)
-        {
-            if (m_OnPointerUp != null) m_OnPointerUp(eventData, this);
-        }
 
-        public virtual void OnPointerEnter(PointerEventData eventData)
+        protected override void OnValidate()
         {
-            pointerMoveEventData = eventData;
-            if (m_OnPointerEnter != null) m_OnPointerEnter(eventData, this);
+            base.OnValidate();
+            m_IsOnValidate = true;
         }
-
-        public virtual void OnPointerExit(PointerEventData eventData)
-        {
-            pointerMoveEventData = null;
-            pointerClickEventData = null;
-            if (m_OnPointerExit != null) m_OnPointerExit(eventData, this);
-        }
-
-        public virtual void OnBeginDrag(PointerEventData eventData)
-        {
-            if (m_ScrollRect != null) m_ScrollRect.OnBeginDrag(eventData);
-            if (m_OnBeginDrag != null) m_OnBeginDrag(eventData, this);
-        }
-
-        public virtual void OnEndDrag(PointerEventData eventData)
-        {
-            if (m_ScrollRect != null) m_ScrollRect.OnEndDrag(eventData);
-            if (m_OnEndDrag != null) m_OnEndDrag(eventData, this);
-        }
-
-        public virtual void OnDrag(PointerEventData eventData)
-        {
-            if (m_ScrollRect != null) m_ScrollRect.OnDrag(eventData);
-            if (m_OnDrag != null) m_OnDrag(eventData, this);
-        }
-
-        public virtual void OnScroll(PointerEventData eventData)
-        {
-            if (m_ScrollRect != null) m_ScrollRect.OnScroll(eventData);
-            if (m_OnScroll != null) m_OnScroll(eventData, this);
-        }
+        #endif
     }
 }

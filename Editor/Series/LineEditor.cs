@@ -1,5 +1,6 @@
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [SerieEditor(typeof(Line))]
@@ -8,6 +9,7 @@ namespace XCharts.Editor
         public override void OnCustomInspectorGUI()
         {
             PropertyField("m_Stack");
+
             if (serie.IsUseCoord<PolarCoord>())
             {
                 PropertyField("m_PolarIndex");
@@ -17,12 +19,16 @@ namespace XCharts.Editor
                 PropertyField("m_XAxisIndex");
                 PropertyField("m_YAxisIndex");
             }
+
             PropertyField("m_LineType");
+
             if (serie.lineType == LineType.Smooth)
             {
                 PropertyField("m_SmoothLimit");
             }
+
             PropertyField("m_Clip");
+
             PropertyFiledMore(() =>
             {
                 PropertyFieldLimitMin("m_MinShow", 0);
@@ -38,6 +44,7 @@ namespace XCharts.Editor
                 PropertyField("m_Large");
                 PropertyField("m_LargeThreshold");
             });
+
             PropertyField("m_Symbol");
             PropertyField("m_LineStyle");
             PropertyField("m_ItemStyle");

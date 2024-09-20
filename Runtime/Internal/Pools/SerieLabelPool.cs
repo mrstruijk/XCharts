@@ -1,17 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     public static class SerieLabelPool
     {
-        private static readonly Stack<GameObject> m_Stack = new Stack<GameObject>(200);
-        private static Dictionary<int, bool> m_ReleaseDic = new Dictionary<int, bool>(1000);
+        private static readonly Stack<GameObject> m_Stack = new(200);
+        private static readonly Dictionary<int, bool> m_ReleaseDic = new(1000);
+
 
         public static GameObject Get(string name, Transform parent, LabelStyle label, Color color,
-            float iconWidth, float iconHeight, ThemeStyle theme)
+                                     float iconWidth, float iconHeight, ThemeStyle theme)
         {
             GameObject element;
+
             if (m_Stack.Count == 0 || !Application.isPlaying)
             {
                 element = CreateSerieLabel(name, parent, label, color, iconWidth, iconHeight, theme);
@@ -19,10 +22,12 @@ namespace XCharts.Runtime
             else
             {
                 element = m_Stack.Pop();
+
                 if (element == null)
                 {
                     element = CreateSerieLabel(name, parent, label, color, iconWidth, iconHeight, theme);
                 }
+
                 m_ReleaseDic.Remove(element.GetInstanceID());
                 element.name = name;
                 element.transform.SetParent(parent);
@@ -31,15 +36,27 @@ namespace XCharts.Runtime
                 text.SetFontAndSizeAndStyle(label.textStyle, theme.common);
                 ChartHelper.SetActive(element, true);
             }
+
             element.transform.localEulerAngles = new Vector3(0, 0, label.rotate);
+
             return element;
         }
 
+
         public static void Release(GameObject element)
         {
-            if (element == null) return;
+            if (element == null)
+            {
+                return;
+            }
+
             ChartHelper.SetActive(element, false);
-            if (!Application.isPlaying) return;
+
+            if (!Application.isPlaying)
+            {
+                return;
+            }
+
             if (!m_ReleaseDic.ContainsKey(element.GetInstanceID()))
             {
                 m_Stack.Push(element);
@@ -47,14 +64,17 @@ namespace XCharts.Runtime
             }
         }
 
+
         public static void ReleaseAll(Transform parent)
         {
-            int count = parent.childCount;
-            for (int i = 0; i < count; i++)
+            var count = parent.childCount;
+
+            for (var i = 0; i < count; i++)
             {
                 Release(parent.GetChild(i).gameObject);
             }
         }
+
 
         public static void ClearAll()
         {
@@ -62,12 +82,15 @@ namespace XCharts.Runtime
             m_ReleaseDic.Clear();
         }
 
+
         private static GameObject CreateSerieLabel(string name, Transform parent, LabelStyle labelStyle, Color color,
-            float iconWidth, float iconHeight, ThemeStyle theme)
+                                                   float iconWidth, float iconHeight, ThemeStyle theme)
         {
             var label = ChartHelper.AddChartLabel(name, parent, labelStyle, theme.common,
-                "", color, TextAnchor.MiddleCenter);
+                "", color);
+
             label.SetActive(labelStyle.show, true);
+
             return label.gameObject;
         }
     }

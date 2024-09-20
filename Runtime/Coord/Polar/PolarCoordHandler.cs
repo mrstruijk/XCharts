@@ -1,11 +1,11 @@
-using System;
-using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.UI;
 using XUGL;
 
+
 namespace XCharts.Runtime
 {
-    [UnityEngine.Scripting.Preserve]
+    [Preserve]
     internal sealed class PolarCoordHandler : MainComponentHandler<PolarCoord>
     {
         public override void Update()
@@ -14,19 +14,26 @@ namespace XCharts.Runtime
             PolarHelper.UpdatePolarCenter(component, chart.chartPosition, chart.chartWidth, chart.chartHeight);
 
             if (chart.isPointerInChart)
+            {
                 component.context.isPointerEnter = component.Contains(chart.pointerPos);
+            }
             else
+            {
                 component.context.isPointerEnter = false;
+            }
         }
+
 
         public override void DrawBase(VertexHelper vh)
         {
             DrawPolar(vh, component);
         }
 
+
         private void DrawPolar(VertexHelper vh, PolarCoord polar)
         {
             PolarHelper.UpdatePolarCenter(polar, chart.chartPosition, chart.chartWidth, chart.chartHeight);
+
             if (polar.show && !ChartHelper.IsClearColor(polar.backgroundColor))
             {
                 if (polar.context.insideRadius > 0)

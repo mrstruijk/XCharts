@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
@@ -10,36 +11,46 @@ namespace XCharts.Example
     {
         private RadarChart chart;
         private Serie serie, serie1;
-        void Awake()
+
+
+        private void Awake()
         {
             LoopDemo();
         }
+
 
         private void OnEnable()
         {
             LoopDemo();
         }
 
-        void LoopDemo()
+
+        private void LoopDemo()
         {
             StopAllCoroutines();
             StartCoroutine(RadarDemo());
         }
 
-        IEnumerator RadarDemo()
+
+        private IEnumerator RadarDemo()
         {
             StartCoroutine(RadarAdd());
+
             yield return new WaitForSeconds(2);
             StartCoroutine(RadarUpdate());
+
             yield return new WaitForSeconds(2);
             StartCoroutine(RadarAddMultiple());
+
             yield return new WaitForSeconds(2);
             LoopDemo();
         }
 
-        IEnumerator RadarAdd()
+
+        private IEnumerator RadarAdd()
         {
             chart = gameObject.GetComponent<RadarChart>();
+
             if (chart == null)
             {
                 chart = gameObject.AddComponent<RadarChart>();
@@ -75,21 +86,25 @@ namespace XCharts.Example
 
             serie = chart.AddSerie<Radar>("test");
             serie.radarIndex = 0;
-            chart.AddData(0, new List<double> { 10, 20, 60, 40, 20 }, "data1");
-            chart.AddData(0, new List<double> { 40, 60, 90, 80, 70 }, "data2");
+            chart.AddData(0, new List<double> {10, 20, 60, 40, 20}, "data1");
+            chart.AddData(0, new List<double> {40, 60, 90, 80, 70}, "data2");
+
             yield return new WaitForSeconds(1);
         }
 
-        IEnumerator RadarUpdate()
+
+        private IEnumerator RadarUpdate()
         {
             var radarCoord = chart.GetChartComponent<RadarCoord>();
             radarCoord.UpdateIndicator(0, "new1", 0, 100);
-            chart.UpdateData(0, 0, new List<double> { 15, 30, 50, 60, 50 });
+            chart.UpdateData(0, 0, new List<double> {15, 30, 50, 60, 50});
             chart.UpdateDataName(0, 0, "new1");
+
             yield return new WaitForSeconds(1);
         }
 
-        IEnumerator RadarAddMultiple()
+
+        private IEnumerator RadarAddMultiple()
         {
             chart.RemoveChartComponents<RadarCoord>();
             chart.RemoveData();
@@ -111,7 +126,8 @@ namespace XCharts.Example
             radarCoord.center[0] = 0.25f;
             radarCoord.center[1] = 0.4f;
             radarCoord.radius = 0.25f;
-            for (int i = 1; i <= 5; i++)
+
+            for (var i = 1; i <= 5; i++)
             {
                 radarCoord.AddIndicator("radar1" + i, 0, 100);
             }
@@ -121,18 +137,20 @@ namespace XCharts.Example
             radarCoord2.center[0] = 0.75f;
             radarCoord2.center[1] = 0.4f;
             radarCoord2.radius = 0.25f;
-            for (int i = 1; i <= 5; i++)
+
+            for (var i = 1; i <= 5; i++)
             {
                 radarCoord2.AddIndicator("radar2" + i, 0, 100);
             }
 
             serie = chart.AddSerie<Radar>("test1");
             serie.radarIndex = 0;
-            chart.AddData(0, new List<double> { 10, 20, 60, 40, 20 }, "data1");
+            chart.AddData(0, new List<double> {10, 20, 60, 40, 20}, "data1");
 
             serie1 = chart.AddSerie<Radar>("test2");
             serie1.radarIndex = 1;
-            chart.AddData(1, new List<double> { 10, 20, 60, 40, 20 }, "data2");
+            chart.AddData(1, new List<double> {10, 20, 60, 40, 20}, "data2");
+
             yield return new WaitForSeconds(1);
         }
     }

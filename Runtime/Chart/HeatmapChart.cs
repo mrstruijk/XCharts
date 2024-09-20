@@ -1,13 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     /// <summary>
-    /// Heat map mainly use colors to represent values, which must be used along with visualMap component.
-    /// It can be used in either rectangular coordinate or geographic coordinate. But the behaviour on them are quite different. Rectangular coordinate must have two categories to use it.
-    /// ||热力图主要通过颜色去表现数值的大小，必须要配合 visualMap 组件使用。
-    /// 可以应用在直角坐标系以及地理坐标系上，这两个坐标系上的表现形式相差很大，直角坐标系上必须要使用两个类目轴。
+    ///     Heat map mainly use colors to represent values, which must be used along with visualMap component.
+    ///     It can be used in either rectangular coordinate or geographic coordinate. But the behaviour on them are quite
+    ///     different. Rectangular coordinate must have two categories to use it.
+    ///     ||热力图主要通过颜色去表现数值的大小，必须要配合 visualMap 组件使用。
+    ///     可以应用在直角坐标系以及地理坐标系上，这两个坐标系上的表现形式相差很大，直角坐标系上必须要使用两个类目轴。
     /// </summary>
     [AddComponentMenu("XCharts/HeatmapChart", 18)]
     [ExecuteInEditMode]
@@ -23,8 +25,8 @@ namespace XCharts.Runtime
             grid.left = 0.12f;
 
             var heatmapGridWid = 18f;
-            int xSplitNumber = (int)(grid.context.width / heatmapGridWid);
-            int ySplitNumber = (int)(grid.context.height / heatmapGridWid);
+            var xSplitNumber = (int) (grid.context.width / heatmapGridWid);
+            var ySplitNumber = (int) (grid.context.height / heatmapGridWid);
 
             var xAxis = EnsureChartComponent<XAxis>();
             xAxis.type = Axis.AxisType.Category;
@@ -48,6 +50,7 @@ namespace XCharts.Runtime
             visualMap.location.align = Location.Align.BottomLeft;
             visualMap.location.bottom = 100;
             visualMap.location.left = 30;
+
             var colors = new List<string>
             {
                 "#313695",
@@ -62,29 +65,34 @@ namespace XCharts.Runtime
                 "#d73027",
                 "#a50026"
             };
+
             visualMap.AddColors(colors);
-            for (int i = 0; i < xSplitNumber; i++)
+
+            for (var i = 0; i < xSplitNumber; i++)
             {
                 xAxis.data.Add((i + 1).ToString());
             }
-            for (int i = 0; i < ySplitNumber; i++)
+
+            for (var i = 0; i < ySplitNumber; i++)
             {
                 yAxis.data.Add((i + 1).ToString());
             }
-            for (int i = 0; i < xSplitNumber; i++)
+
+            for (var i = 0; i < xSplitNumber; i++)
             {
-                for (int j = 0; j < ySplitNumber; j++)
+                for (var j = 0; j < ySplitNumber; j++)
                 {
                     var value = Random.Range(0, 150);
-                    var list = new List<double> { i, j, value };
+                    var list = new List<double> {i, j, value};
                     AddData(0, list);
                 }
             }
         }
 
+
         /// <summary>
-        /// default count heatmap chart.
-        /// || 默认计数热力图。
+        ///     default count heatmap chart.
+        ///     || 默认计数热力图。
         /// </summary>
         public void DefaultCountHeatmapChart()
         {
@@ -101,10 +109,11 @@ namespace XCharts.Runtime
             yAxis.splitNumber = 2;
 
             serie.ClearData();
-            for (int i = 0; i < 100; i++)
+
+            for (var i = 0; i < 100; i++)
             {
-                var x = UnityEngine.Random.Range(0, 100);
-                var y = UnityEngine.Random.Range(0, 100);
+                var x = Random.Range(0, 100);
+                var y = Random.Range(0, 100);
                 AddData(0, x, y);
             }
         }

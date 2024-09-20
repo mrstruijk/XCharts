@@ -1,6 +1,7 @@
 using UnityEditor;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [ComponentEditor(typeof(Background))]
@@ -8,7 +9,6 @@ namespace XCharts.Editor
     {
         public override void OnInspectorGUI()
         {
-
             ++EditorGUI.indentLevel;
             PropertyField("m_Image");
             PropertyField("m_ImageType");

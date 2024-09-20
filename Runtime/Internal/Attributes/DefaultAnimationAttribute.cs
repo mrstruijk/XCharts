@@ -1,5 +1,6 @@
 using System;
 
+
 namespace XCharts.Runtime
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
@@ -8,14 +9,16 @@ namespace XCharts.Runtime
         public readonly AnimationType type;
         public readonly bool enableSerieDataAddedAnimation = true;
 
+
         public DefaultAnimationAttribute(AnimationType handler)
         {
-            this.type = handler;
+            type = handler;
         }
+
 
         public DefaultAnimationAttribute(AnimationType handler, bool enableSerieDataAddedAnimation)
         {
-            this.type = handler;
+            type = handler;
             this.enableSerieDataAddedAnimation = enableSerieDataAddedAnimation;
         }
     }

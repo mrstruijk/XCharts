@@ -1,45 +1,55 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Scripting;
+using UnityEngine.UI;
+
 
 namespace XCharts.Runtime
 {
-    [UnityEngine.Scripting.Preserve]
+    [Preserve]
     internal sealed class XAxisHander : AxisHandler<XAxis>
     {
-        protected override Orient orient { get { return Orient.Horizonal; } }
+        protected override Orient orient => Orient.Horizonal;
+
 
         public override void InitComponent()
         {
             InitXAxis(component);
         }
 
+
         public override void Update()
         {
             UpdateAxisMinMaxValue(component.index, component);
+
             if (!chart.isTriggerOnClick)
             {
-               UpdatePointerValue(component);
+                UpdatePointerValue(component);
             }
         }
+
 
         public override void OnPointerClick(PointerEventData eventData)
         {
             base.OnPointerClick(eventData);
+
             if (chart.isTriggerOnClick)
             {
                 UpdatePointerValue(component);
             }
         }
 
+
         public override void OnPointerExit(PointerEventData eventData)
         {
             base.OnPointerExit(eventData);
+
             if (chart.isTriggerOnClick)
             {
                 component.context.pointerValue = double.PositiveInfinity;
             }
         }
+
 
         public override void DrawBase(VertexHelper vh)
         {
@@ -49,9 +59,11 @@ namespace XCharts.Runtime
             DrawXAxisTick(vh, component);
         }
 
+
         private void UpdatePosition(XAxis axis)
         {
             var grid = chart.GetChartComponent<GridCoord>(axis.gridIndex);
+
             if (grid != null)
             {
                 var relativedAxis = chart.GetChartComponent<YAxis>(axis.gridIndex);
@@ -67,17 +79,21 @@ namespace XCharts.Runtime
             }
         }
 
+
         private void InitXAxis(XAxis xAxis)
         {
             var theme = chart.theme;
             var xAxisIndex = xAxis.index;
             xAxis.painter = chart.painter;
-            xAxis.refreshComponent = delegate()
+
+            xAxis.refreshComponent = delegate
             {
                 var grid = chart.GetChartComponent<GridCoord>(xAxis.gridIndex);
+
                 if (grid != null)
                 {
                     var yAxis = chart.GetChartComponent<YAxis>(xAxis.index);
+
                     InitAxis(yAxis,
                         orient,
                         grid.context.x,
@@ -86,17 +102,21 @@ namespace XCharts.Runtime
                         grid.context.height);
                 }
             };
+
             xAxis.refreshComponent();
         }
+
 
         internal override void UpdateAxisLabelText(Axis axis)
         {
             base.UpdateAxisLabelText(axis);
+
             if (axis.IsTime() || axis.IsValue())
             {
-                for (int i = 0; i < axis.context.labelObjectList.Count; i++)
+                for (var i = 0; i < axis.context.labelObjectList.Count; i++)
                 {
                     var label = axis.context.labelObjectList[i];
+
                     if (label != null)
                     {
                         var pos = GetLabelPosition(0, i);
@@ -107,13 +127,18 @@ namespace XCharts.Runtime
             }
         }
 
+
         protected override Vector3 GetLabelPosition(float scaleWid, int i)
         {
             var grid = chart.GetChartComponent<GridCoord>(component.gridIndex);
+
             if (grid == null)
+            {
                 return Vector3.zero;
+            }
 
             var yAxis = chart.GetChartComponent<YAxis>(component.index);
+
             return GetLabelPosition(i, Orient.Horizonal, component, yAxis,
                 chart.theme.axis,
                 scaleWid,
@@ -123,13 +148,17 @@ namespace XCharts.Runtime
                 grid.context.height);
         }
 
+
         private void DrawXAxisSplit(VertexHelper vh, XAxis xAxis)
         {
             if (AxisHelper.NeedShowSplit(xAxis))
             {
                 var grid = chart.GetChartComponent<GridCoord>(xAxis.gridIndex);
+
                 if (grid == null)
+                {
                     return;
+                }
 
                 var relativedAxis = chart.GetChartComponent<YAxis>(xAxis.gridIndex);
                 var dataZoom = chart.GetDataZoomOfAxis(xAxis);
@@ -144,13 +173,17 @@ namespace XCharts.Runtime
             }
         }
 
+
         private void DrawXAxisTick(VertexHelper vh, XAxis xAxis)
         {
             if (AxisHelper.NeedShowSplit(xAxis))
             {
                 var grid = chart.GetChartComponent<GridCoord>(xAxis.gridIndex);
+
                 if (grid == null)
+                {
                     return;
+                }
 
                 var dataZoom = chart.GetDataZoomOfAxis(xAxis);
 
@@ -162,13 +195,17 @@ namespace XCharts.Runtime
             }
         }
 
+
         private void DrawXAxisLine(VertexHelper vh, XAxis xAxis)
         {
             if (xAxis.show && xAxis.axisLine.show)
             {
                 var grid = chart.GetChartComponent<GridCoord>(xAxis.gridIndex);
+
                 if (grid == null)
+                {
                     return;
+                }
 
                 DrawAxisLine(vh, xAxis, chart.theme.axis,
                     Orient.Horizonal,
@@ -177,6 +214,7 @@ namespace XCharts.Runtime
                     grid.context.width);
             }
         }
+
 
         internal override float GetAxisLineXOrY()
         {

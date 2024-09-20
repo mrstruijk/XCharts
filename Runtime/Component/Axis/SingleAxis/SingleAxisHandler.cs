@@ -1,23 +1,28 @@
 using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.UI;
+
 
 namespace XCharts.Runtime
 {
-    [UnityEngine.Scripting.Preserve]
+    [Preserve]
     internal sealed class SingleAxisHander : AxisHandler<SingleAxis>
     {
-        protected override Orient orient { get { return component.orient; } }
+        protected override Orient orient => component.orient;
+
 
         public override void InitComponent()
         {
             InitXAxis(component);
         }
 
+
         public override void Update()
         {
             UpdateAxisMinMaxValue(component.index, component);
             UpdatePointerValue(component);
         }
+
 
         public override void DrawBase(VertexHelper vh)
         {
@@ -26,12 +31,14 @@ namespace XCharts.Runtime
             DrawSingleAxisTick(vh, component);
         }
 
+
         private void InitXAxis(SingleAxis axis)
         {
             var theme = chart.theme;
             var xAxisIndex = axis.index;
             axis.painter = chart.painter;
-            axis.refreshComponent = delegate()
+
+            axis.refreshComponent = delegate
             {
                 axis.UpdateRuntimeData(chart);
 
@@ -42,17 +49,21 @@ namespace XCharts.Runtime
                     axis.context.width,
                     axis.context.height);
             };
+
             axis.refreshComponent();
         }
+
 
         internal override void UpdateAxisLabelText(Axis axis)
         {
             base.UpdateAxisLabelText(axis);
+
             if (axis.IsTime() || axis.IsValue())
             {
-                for (int i = 0; i < axis.context.labelObjectList.Count; i++)
+                for (var i = 0; i < axis.context.labelObjectList.Count; i++)
                 {
                     var label = axis.context.labelObjectList[i];
+
                     if (label != null)
                     {
                         var pos = GetLabelPosition(0, i);
@@ -62,6 +73,7 @@ namespace XCharts.Runtime
                 }
             }
         }
+
 
         protected override Vector3 GetLabelPosition(float scaleWid, int i)
         {
@@ -74,11 +86,13 @@ namespace XCharts.Runtime
                 component.context.height);
         }
 
+
         private void DrawSingleAxisSplit(VertexHelper vh, SingleAxis axis)
         {
             if (AxisHelper.NeedShowSplit(axis))
             {
                 var dataZoom = chart.GetDataZoomOfAxis(axis);
+
                 DrawAxisSplit(vh, chart.theme.axis, dataZoom,
                     axis.orient,
                     axis.context.x,
@@ -88,11 +102,13 @@ namespace XCharts.Runtime
             }
         }
 
+
         private void DrawSingleAxisTick(VertexHelper vh, SingleAxis axis)
         {
             if (AxisHelper.NeedShowSplit(axis))
             {
                 var dataZoom = chart.GetDataZoomOfAxis(axis);
+
                 DrawAxisTick(vh, axis, chart.theme.axis, dataZoom,
                     axis.orient,
                     axis.context.x,
@@ -100,6 +116,7 @@ namespace XCharts.Runtime
                     axis.context.width);
             }
         }
+
 
         private void DrawSingleAxisLine(VertexHelper vh, SingleAxis axis)
         {
@@ -113,6 +130,7 @@ namespace XCharts.Runtime
                     axis.context.width);
             }
         }
+
 
         internal override float GetAxisLineXOrY()
         {

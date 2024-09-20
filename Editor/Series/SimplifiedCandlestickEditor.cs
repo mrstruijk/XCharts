@@ -1,5 +1,6 @@
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [SerieEditor(typeof(SimplifiedCandlestick))]

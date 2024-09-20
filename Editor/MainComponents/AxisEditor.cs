@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [ComponentEditor(typeof(Axis))]
@@ -12,8 +13,9 @@ namespace XCharts.Editor
             var m_Type = baseProperty.FindPropertyRelative("m_Type");
             var m_LogBase = baseProperty.FindPropertyRelative("m_LogBase");
             var m_MinMaxType = baseProperty.FindPropertyRelative("m_MinMaxType");
-            var type = (Axis.AxisType)m_Type.enumValueIndex;
+            var type = (Axis.AxisType) m_Type.enumValueIndex;
             EditorGUI.indentLevel++;
+
             if (component is ParallelAxis)
             {
                 PropertyField("m_ParallelIndex");
@@ -23,24 +25,30 @@ namespace XCharts.Editor
                 PropertyField("m_GridIndex");
                 PropertyField("m_PolarIndex");
             }
+
             PropertyField("m_Type");
             PropertyField("m_Position");
             PropertyField("m_Offset");
+
             if (type == Axis.AxisType.Log)
             {
                 PropertyField("m_LogBaseE");
                 EditorGUI.BeginChangeCheck();
                 PropertyField("m_LogBase");
+
                 if (m_LogBase.floatValue <= 0 || m_LogBase.floatValue == 1)
                 {
                     m_LogBase.floatValue = 10;
                 }
+
                 EditorGUI.EndChangeCheck();
             }
+
             if (type == Axis.AxisType.Value || type == Axis.AxisType.Time)
             {
                 PropertyField("m_MinMaxType");
-                Axis.AxisMinMaxType minMaxType = (Axis.AxisMinMaxType)m_MinMaxType.enumValueIndex;
+                var minMaxType = (Axis.AxisMinMaxType) m_MinMaxType.enumValueIndex;
+
                 switch (minMaxType)
                 {
                     case Axis.AxisMinMaxType.Default:
@@ -52,15 +60,20 @@ namespace XCharts.Editor
                         PropertyField("m_Min");
                         PropertyField("m_Max");
                         EditorGUI.indentLevel--;
+
                         break;
                 }
+
                 PropertyField("m_CeilRate");
+
                 if (type == Axis.AxisType.Value)
                 {
                     PropertyField("m_Inverse");
                 }
             }
+
             PropertyField("m_SplitNumber");
+
             if (type == Axis.AxisType.Category)
             {
                 PropertyField("m_MaxCache");
@@ -71,11 +84,14 @@ namespace XCharts.Editor
             {
                 PropertyField("m_Interval");
             }
+
             DrawExtendeds();
+
             if (type != Axis.AxisType.Category)
             {
                 PropertyField("m_Animation");
             }
+
             PropertyField("m_AxisLine");
             PropertyField("m_AxisName");
             PropertyField("m_AxisTick");
@@ -83,12 +99,15 @@ namespace XCharts.Editor
             PropertyField("m_SplitLine");
             PropertyField("m_SplitArea");
             PropertyField("m_IndicatorLabel");
+
             if (type != Axis.AxisType.Category)
             {
                 PropertyField("m_MinorTick");
                 PropertyField("m_MinorSplitLine");
             }
-            PropertyListField("m_Icons", true);
+
+            PropertyListField("m_Icons");
+
             if (type == Axis.AxisType.Category)
             {
                 PropertyListField("m_Data", true, new HeaderMenuInfo("Import ECharts Axis Data", () =>
@@ -97,24 +116,41 @@ namespace XCharts.Editor
                     PraseExternalDataEditor.ShowWindow();
                 }));
             }
+
             EditorGUI.indentLevel--;
         }
     }
 
+
     [ComponentEditor(typeof(XAxis))]
-    public class XAxisEditor : AxisEditor { }
+    public class XAxisEditor : AxisEditor
+    {
+    }
+
 
     [ComponentEditor(typeof(YAxis))]
-    public class YAxisEditor : AxisEditor { }
+    public class YAxisEditor : AxisEditor
+    {
+    }
+
 
     [ComponentEditor(typeof(XAxis3D))]
-    public class XAxis3DEditor : AxisEditor { }
+    public class XAxis3DEditor : AxisEditor
+    {
+    }
+
 
     [ComponentEditor(typeof(YAxis3D))]
-    public class YAxis3DEditor : AxisEditor { }
+    public class YAxis3DEditor : AxisEditor
+    {
+    }
+
 
     [ComponentEditor(typeof(ZAxis3D))]
-    public class ZAxis3DEditor : AxisEditor { }
+    public class ZAxis3DEditor : AxisEditor
+    {
+    }
+
 
     [ComponentEditor(typeof(SingleAxis))]
     public class SingleAxisEditor : AxisEditor
@@ -132,6 +168,7 @@ namespace XCharts.Editor
         }
     }
 
+
     [ComponentEditor(typeof(AngleAxis))]
     public class AngleAxisEditor : AxisEditor
     {
@@ -143,19 +180,29 @@ namespace XCharts.Editor
         }
     }
 
+
     [ComponentEditor(typeof(RadiusAxis))]
-    public class RadiusAxisEditor : AxisEditor { }
+    public class RadiusAxisEditor : AxisEditor
+    {
+    }
+
 
     [ComponentEditor(typeof(ParallelAxis))]
-    public class ParallelAxisEditor : AxisEditor { }
+    public class ParallelAxisEditor : AxisEditor
+    {
+    }
+
 
     [CustomPropertyDrawer(typeof(AxisLabel), true)]
     public class AxisLabelDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "AxisLabel"; } }
+        public override string ClassName => "AxisLabel";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
@@ -184,13 +231,17 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisName), true)]
     public class AxisNameDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "AxisName"; } }
+        public override string ClassName => "AxisName";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
@@ -202,13 +253,17 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisSplitArea), true)]
     public class AxisSplitAreaDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "SplitArea"; } }
+        public override string ClassName => "SplitArea";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
@@ -218,13 +273,17 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisAnimation), true)]
     public class AxisAnimationDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Animation"; } }
+        public override string ClassName => "Animation";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;

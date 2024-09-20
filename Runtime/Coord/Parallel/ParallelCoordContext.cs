@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     public class ParallelCoordContext : MainComponentContext
@@ -15,6 +16,6 @@ namespace XCharts.Runtime
         public float bottom;
         public float top;
         public bool runtimeIsPointerEnter;
-        internal List<ParallelAxis> parallelAxes = new List<ParallelAxis>();
+        internal List<ParallelAxis> parallelAxes = new();
     }
 }

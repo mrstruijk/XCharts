@@ -1,15 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     public class GridCoord3DContext : MainComponentContext
     {
         public float x;
         public float y;
-        public Rect maxRect = new Rect(0, 0, 0, 0);
+        public Rect maxRect = new(0, 0, 0, 0);
         public bool isPointerEnter;
-        public List<ChartLabel> endLabelList = new List<ChartLabel>();
+        public List<ChartLabel> endLabelList = new();
         //public Vector3 position = Vector3.zero;
         public Vector3 pointA = Vector3.zero;
         public Vector3 pointB = Vector3.zero;

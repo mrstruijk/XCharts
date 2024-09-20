@@ -1,6 +1,7 @@
 using UnityEditor;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [ComponentEditor(typeof(Comment))]
@@ -11,7 +12,7 @@ namespace XCharts.Editor
             ++EditorGUI.indentLevel;
             PropertyField("m_LabelStyle");
             //PropertyField("m_MarkStyle");
-            PropertyListField("m_Items", true);
+            PropertyListField("m_Items");
             --EditorGUI.indentLevel;
         }
     }

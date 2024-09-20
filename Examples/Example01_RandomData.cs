@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using XCharts.Runtime;
 #if INPUT_SYSTEM_ENABLED
 using Input = XCharts.Runtime.InputHelper;
 #endif
+
+
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
@@ -19,17 +19,19 @@ namespace XCharts.Example
         public int maxCache = 0;
         public bool insertDataToHead = false;
 
-        BaseChart chart;
-        float lastAddTime;
-        float lastUpdateTime;
-        int dataCount;
+        private BaseChart chart;
+        private float lastAddTime;
+        private float lastUpdateTime;
+        private int dataCount;
 
-        int lastMaxCache = 0;
-        bool lastInsertDataToHead = false;
+        private int lastMaxCache = 0;
+        private bool lastInsertDataToHead = false;
 
-        void Awake()
+
+        private void Awake()
         {
             chart = gameObject.GetComponent<BaseChart>();
+
             chart.onInit = () =>
             {
                 dataCount = chart.GetSerie(0).dataCount;
@@ -40,22 +42,28 @@ namespace XCharts.Example
             };
         }
 
-        void SetMaxCache(int maxCache)
+
+        private void SetMaxCache(int maxCache)
         {
             chart.SetMaxCache(maxCache);
         }
 
-        void SetInsertDataToHead(bool insertDataToHead)
+
+        private void SetInsertDataToHead(bool insertDataToHead)
         {
             foreach (var serie in chart.series)
+            {
                 serie.insertDataToHead = insertDataToHead;
+            }
 
             var coms = chart.GetChartComponents<XAxis>();
+
             if (coms != null)
             {
                 foreach (var com in coms)
                 {
                     var axis = com as XAxis;
+
                     if (axis.type == Axis.AxisType.Category)
                     {
                         axis.insertDataToHead = insertDataToHead;
@@ -65,7 +73,8 @@ namespace XCharts.Example
             }
         }
 
-        void Update()
+
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -79,17 +88,21 @@ namespace XCharts.Example
             {
                 chart.ClearData();
             }
+
             if (lastMaxCache != maxCache)
             {
                 lastMaxCache = maxCache;
                 SetMaxCache(maxCache);
             }
+
             if (lastInsertDataToHead != insertDataToHead)
             {
                 lastInsertDataToHead = insertDataToHead;
                 SetInsertDataToHead(insertDataToHead);
             }
+
             lastAddTime += Time.deltaTime;
+
             if (loopAdd && lastAddTime >= loopAddTime)
             {
                 lastAddTime = 0;
@@ -97,6 +110,7 @@ namespace XCharts.Example
             }
 
             lastUpdateTime += Time.deltaTime;
+
             if (loopUpdate && lastUpdateTime >= loopUpadteTime)
             {
                 lastUpdateTime = 0;
@@ -104,26 +118,29 @@ namespace XCharts.Example
             }
         }
 
-        void AddData()
+
+        private void AddData()
         {
             if (chart is HeatmapChart)
             {
                 var xAxis = chart.GetChartComponent<XAxis>();
                 var yAxis = chart.GetChartComponent<YAxis>();
+
                 if (xAxis != null && yAxis != null)
                 {
                     chart.AddXAxisData((xAxis.GetAddedDataCount() + 1).ToString());
-                    for (int i = 0; i < yAxis.data.Count; i++)
+
+                    for (var i = 0; i < yAxis.data.Count; i++)
                     {
                         chart.AddData(0, xAxis.GetAddedDataCount() - 1, i, Random.Range(10, 90));
                     }
                 }
-                return;
             }
             else
             {
                 AddXAxisData();
                 var xAxis = chart.GetChartComponent<XAxis>();
+
                 foreach (var serie in chart.series)
                 {
                     AddSerieRandomData(serie, xAxis);
@@ -131,12 +148,15 @@ namespace XCharts.Example
             }
         }
 
-        void AddXAxisData()
+
+        private void AddXAxisData()
         {
             var xAxes = chart.GetChartComponents<XAxis>();
+
             foreach (var com in xAxes)
             {
                 var xAxis = com as XAxis;
+
                 if (xAxis.type == Axis.AxisType.Category)
                 {
                     chart.AddXAxisData("x" + (xAxis.GetAddedDataCount() + 1), xAxis.index);
@@ -144,7 +164,8 @@ namespace XCharts.Example
             }
         }
 
-        void UpdateData()
+
+        private void UpdateData()
         {
             foreach (var serie in chart.series)
             {
@@ -152,7 +173,8 @@ namespace XCharts.Example
             }
         }
 
-        void AddSerieRandomData(Serie serie, XAxis xAxis)
+
+        private void AddSerieRandomData(Serie serie, XAxis xAxis)
         {
             if (serie is Line || serie is Bar || serie is Scatter || serie is EffectScatter)
             {
@@ -163,9 +185,13 @@ namespace XCharts.Example
                 else
                 {
                     if (serie is Line)
+                    {
                         chart.AddData(serie.index, dataCount++, Random.Range(10, 90), "data" + serie.dataCount);
+                    }
                     else
+                    {
                         chart.AddData(serie.index, Random.Range(10, 90), Random.Range(10, 90), "data" + serie.dataCount);
+                    }
                 }
             }
             else if (serie is Ring)
@@ -174,9 +200,13 @@ namespace XCharts.Example
             }
             else if (serie is Radar)
             {
-                var list = new System.Collections.Generic.List<double>();
-                for (int i = 0; i < 5; i++)
+                var list = new List<double>();
+
+                for (var i = 0; i < 5; i++)
+                {
                     list.Add(Random.Range(10, 90));
+                }
+
                 chart.AddData(serie.index, list, "data" + serie.dataCount);
             }
             else if (serie is Candlestick)
@@ -190,7 +220,8 @@ namespace XCharts.Example
             else if (serie is Heatmap)
             {
                 var yAxis = chart.GetChartComponent<YAxis>(serie.yAxisIndex);
-                for (int i = 0; i < yAxis.data.Count; i++)
+
+                for (var i = 0; i < yAxis.data.Count; i++)
                 {
                     chart.AddData(serie.index, xAxis.GetAddedDataCount() - 1, i, Random.Range(0, 150));
                 }
@@ -201,9 +232,11 @@ namespace XCharts.Example
             }
         }
 
-        void UpdateSerieRandomData(Serie serie)
+
+        private void UpdateSerieRandomData(Serie serie)
         {
             var index = Random.Range(0, serie.dataCount);
+
             if (serie is Ring)
             {
                 chart.UpdateData(serie.index, index, 0, Random.Range(10, 90));
@@ -227,7 +260,7 @@ namespace XCharts.Example
                 var close = Random.Range(40, 90);
                 var lowest = Random.Range(0, 50);
                 var heighest = Random.Range(50, 100);
-                chart.UpdateData(serie.index, index, new List<double> { open, close, lowest, heighest });
+                chart.UpdateData(serie.index, index, new List<double> {open, close, lowest, heighest});
             }
             else
             {

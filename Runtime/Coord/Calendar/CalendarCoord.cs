@@ -1,5 +1,5 @@
 using System;
-using UnityEngine;
+
 
 namespace XCharts.Runtime
 {
@@ -11,6 +11,7 @@ namespace XCharts.Runtime
         {
             return false;
         }
+
 
         public void UpdateRuntimeData(BaseChart chart)
         {

@@ -3,6 +3,8 @@ using XCharts.Runtime;
 #if INPUT_SYSTEM_ENABLED
 using Input = XCharts.Runtime.InputHelper;
 #endif
+
+
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
@@ -12,18 +14,22 @@ namespace XCharts.Example
         private BaseChart chart;
         private float updateTime;
 
-        void Awake()
+
+        private void Awake()
         {
             chart = gameObject.GetComponent<BaseChart>();
+
             if (chart == null)
             {
                 chart = gameObject.AddComponent<BaseChart>();
                 chart.Init();
             }
+
             chart.EnsureChartComponent<PolarCoord>();
         }
 
-        void Update()
+
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -31,7 +37,8 @@ namespace XCharts.Example
             }
         }
 
-        void AddData()
+
+        private void AddData()
         {
             chart.RemoveData();
             chart.GetChartComponent<Tooltip>().type = Tooltip.Type.Cross;
@@ -44,7 +51,8 @@ namespace XCharts.Example
             chart.AddSerie<Line>("line1");
 
             var rate = Random.Range(1, 4);
-            for (int i = 0; i <= 360; i++)
+
+            for (var i = 0; i <= 360; i++)
             {
                 var t = i / 180f * Mathf.PI;
                 var r = Mathf.Sin(2 * t) * Mathf.Cos(2 * t) * rate;

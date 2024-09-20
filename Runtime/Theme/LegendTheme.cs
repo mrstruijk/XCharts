@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 #endif
 
+
 namespace XCharts.Runtime
 {
     [Serializable]
@@ -11,26 +12,34 @@ namespace XCharts.Runtime
     {
         [SerializeField] protected Color m_UnableColor;
 
+
+        public LegendTheme(ThemeType theme) : base(theme)
+        {
+            m_UnableColor = ColorUtil.GetColor("#cccccc");
+        }
+
+
         /// <summary>
-        /// the color of text.
-        /// ||文本颜色。
+        ///     the color of text.
+        ///     ||文本颜色。
         /// </summary>
         public Color unableColor
         {
-            get { return m_UnableColor; }
-            set { if (PropertyUtil.SetColor(ref m_UnableColor, value)) SetComponentDirty(); }
+            get => m_UnableColor;
+            set
+            {
+                if (PropertyUtil.SetColor(ref m_UnableColor, value))
+                {
+                    SetComponentDirty();
+                }
+            }
         }
+
 
         public void Copy(LegendTheme theme)
         {
             base.Copy(theme);
             m_UnableColor = theme.unableColor;
-        }
-
-        public LegendTheme(ThemeType theme) : base(theme)
-        {
-            m_UnableColor = ColorUtil.GetColor("#cccccc");
-
         }
     }
 }

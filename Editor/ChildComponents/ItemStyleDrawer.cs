@@ -2,15 +2,19 @@ using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(ItemStyle), true)]
     public class ItemStyleDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "ItemStyle"; } }
+        public override string ClassName => "ItemStyle";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", false))
             {
                 ++EditorGUI.indentLevel;
@@ -32,7 +36,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_ItemMarker");
                 PropertyField(prop, "m_ItemFormatter");
                 PropertyField(prop, "m_NumericFormatter");
-                PropertyListField(prop, "m_CornerRadius", true);
+                PropertyListField(prop, "m_CornerRadius");
                 --EditorGUI.indentLevel;
             }
         }

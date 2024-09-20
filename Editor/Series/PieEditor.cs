@@ -1,5 +1,6 @@
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [SerieEditor(typeof(Pie))]
@@ -13,6 +14,7 @@ namespace XCharts.Editor
             PropertyTwoFiled("m_Center");
             PropertyTwoFiled("m_Radius");
             PropertyField("m_AvoidLabelOverlap");
+
             PropertyFiledMore(() =>
             {
                 PropertyField("m_MaxCache");
@@ -26,6 +28,7 @@ namespace XCharts.Editor
                 PropertyField("m_MinShowLabel");
                 PropertyField("m_MinShowLabelValue");
             });
+
             PropertyField("m_ItemStyle");
             PropertyField("m_Animation");
         }

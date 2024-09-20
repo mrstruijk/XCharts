@@ -1,39 +1,55 @@
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class Example04_DataZoom : MonoBehaviour
     {
-        BaseChart chart;
+        private BaseChart chart;
 
-        void Awake()
+
+        private void Awake()
         {
             chart = gameObject.GetComponent<BaseChart>();
-            if (chart == null) return;
+
+            if (chart == null)
+            {
+                return;
+            }
+
             var dataZoom = chart.GetChartComponent<DataZoom>();
-            if (dataZoom == null) return;
+
+            if (dataZoom == null)
+            {
+                return;
+            }
+
             dataZoom.marqueeStyle.onStart = OnMarqueeStart;
             dataZoom.marqueeStyle.onEnd = OnMarqueeEnd;
             dataZoom.marqueeStyle.onGoing = OnMarquee;
         }
 
-        void OnMarqueeStart(DataZoom dataZoom)
+
+        private void OnMarqueeStart(DataZoom dataZoom)
         {
             //Debug.Log("OnMarqueeStart:" + dataZoom);
         }
 
-        void OnMarquee(DataZoom dataZoom)
+
+        private void OnMarquee(DataZoom dataZoom)
         {
             //Debug.Log("OnMarquee:" + dataZoom);
         }
 
-        void OnMarqueeEnd(DataZoom dataZoom)
+
+        private void OnMarqueeEnd(DataZoom dataZoom)
         {
             //Debug.Log("OnMarqueeEnd:" + dataZoom);
             var serie = chart.GetSerie(0);
+
             foreach (var serieData in serie.data)
             {
                 if (dataZoom.IsInMarqueeArea(serieData))

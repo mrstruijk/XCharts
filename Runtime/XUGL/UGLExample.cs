@@ -1,19 +1,20 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 namespace XUGL
 {
     [ExecuteInEditMode]
     public class UGLExample : MaskableGraphic
     {
-        private float m_Width = 800;
-        private float m_Height = 800;
+        private readonly float m_Width = 800;
+        private readonly float m_Height = 800;
         private Vector3 m_Center = Vector3.zero;
         private Vector3 m_LeftTopPos = Vector3.zero;
-        private Color32 m_BackgroundColor = new Color32(224, 224, 224, 255);
-        private Color32 m_DrawColor = new Color32(255, 132, 142, 255);
-        private float[] m_BorderRadius = new float[] { 5, 5, 10, 10 };
+        private readonly Color32 m_BackgroundColor = new(224, 224, 224, 255);
+        private readonly Color32 m_DrawColor = new(255, 132, 142, 255);
+        private readonly float[] m_BorderRadius = {5, 5, 10, 10};
+
 
         protected override void Awake()
         {
@@ -27,6 +28,7 @@ namespace XUGL
             m_LeftTopPos = new Vector3(-m_Width / 2, m_Height / 2);
         }
 
+
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             Vector3 sp, cp, ep;
@@ -34,7 +36,7 @@ namespace XUGL
 
             //背景边框
             UGL.DrawSquare(vh, m_Center, m_Width / 2, m_BackgroundColor);
-            UGL.DrawBorder(vh, m_Center, m_Width, m_Height, 40, Color.green, Color.red, 0, m_BorderRadius, false, 1);
+            UGL.DrawBorder(vh, m_Center, m_Width, m_Height, 40, Color.green, Color.red, 0, m_BorderRadius);
 
             //点
             UGL.DrawCricle(vh, m_LeftTopPos + new Vector3(20, -20), 10, m_DrawColor);
@@ -49,7 +51,6 @@ namespace XUGL
             cp = new Vector3(m_LeftTopPos.x + 200, m_LeftTopPos.y - 40);
             ep = new Vector3(m_LeftTopPos.x + 250, m_LeftTopPos.y - 80);
             UGL.DrawLine(vh, sp, cp, ep, 5, m_DrawColor);
-
         }
     }
 }

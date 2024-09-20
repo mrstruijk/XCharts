@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [ComponentEditor(typeof(MarkArea))]
@@ -20,19 +21,24 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(MarkAreaData), true)]
     public class MarkAreaDataDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "MarkAreaData"; } }
+        public override string ClassName => "MarkAreaData";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "", true))
             {
                 ++EditorGUI.indentLevel;
-                var type = (MarkAreaType) (prop.FindPropertyRelative("m_Type")).enumValueIndex;
+                var type = (MarkAreaType) prop.FindPropertyRelative("m_Type").enumValueIndex;
                 PropertyField(prop, "m_Type");
                 PropertyField(prop, "m_Name");
+
                 switch (type)
                 {
                     case MarkAreaType.None:
@@ -40,14 +46,17 @@ namespace XCharts.Editor
                         PropertyField(prop, "m_YPosition");
                         PropertyField(prop, "m_XValue");
                         PropertyField(prop, "m_YValue");
+
                         break;
                     case MarkAreaType.Min:
                     case MarkAreaType.Max:
                     case MarkAreaType.Average:
                     case MarkAreaType.Median:
                         PropertyField(prop, "m_Dimension");
+
                         break;
                 }
+
                 --EditorGUI.indentLevel;
             }
         }

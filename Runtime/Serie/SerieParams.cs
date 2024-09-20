@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     public class SerieParams
@@ -20,6 +21,6 @@ namespace XCharts.Runtime
         public string itemFormatter;
         public string numericFormatter;
         public bool ignore;
-        public List<string> columns = new List<string>();
+        public List<string> columns = new();
     }
 }

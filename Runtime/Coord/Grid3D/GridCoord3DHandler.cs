@@ -1,41 +1,64 @@
 using System.Text;
-using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.UI;
 using XUGL;
 
+
 namespace XCharts.Runtime
 {
-    [UnityEngine.Scripting.Preserve]
+    [Preserve]
     internal sealed class GridCoord3DHandler : MainComponentHandler<GridCoord3D>
     {
         public override void InitComponent()
         {
             var grid = component;
             grid.painter = chart.painter;
-            grid.refreshComponent = delegate ()
+
+            grid.refreshComponent = delegate
             {
                 grid.UpdateRuntimeData(chart);
                 chart.OnCoordinateChanged();
             };
+
             grid.refreshComponent();
         }
+
 
         public override void CheckComponent(StringBuilder sb)
         {
             var grid = component;
+
             if (grid.left >= chart.chartWidth)
+            {
                 sb.Append("warning:grid->left > chartWidth\n");
+            }
+
             if (grid.right >= chart.chartWidth)
+            {
                 sb.Append("warning:grid->right > chartWidth\n");
+            }
+
             if (grid.top >= chart.chartHeight)
+            {
                 sb.Append("warning:grid->top > chartHeight\n");
+            }
+
             if (grid.bottom >= chart.chartHeight)
+            {
                 sb.Append("warning:grid->bottom > chartHeight\n");
+            }
+
             if (grid.left + grid.right >= chart.chartWidth)
+            {
                 sb.Append("warning:grid.left + grid.right > chartWidth\n");
+            }
+
             if (grid.top + grid.bottom >= chart.chartHeight)
+            {
                 sb.Append("warning:grid.top + grid.bottom > chartHeight\n");
+            }
         }
+
 
         public override void Update()
         {
@@ -49,18 +72,25 @@ namespace XCharts.Runtime
             }
         }
 
+
         public override void DrawUpper(VertexHelper vh)
         {
             DrawCoord(vh, component);
         }
 
+
         private void DrawCoord(VertexHelper vh, GridCoord3D grid)
         {
-            if (!grid.show) return;
+            if (!grid.show)
+            {
+                return;
+            }
+
             if (grid.showBorder)
             {
                 var borderWidth = chart.theme.axis.lineWidth;
                 var borderColor = chart.theme.axis.lineColor;
+
                 if (grid.IsLeft())
                 {
                     UGL.DrawLine(vh, grid.context.pointA, grid.context.pointE, borderWidth, borderColor);

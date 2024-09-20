@@ -2,15 +2,19 @@ using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(LabelStyle), true)]
     public class LabelStyleDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Label"; } }
+        public override string ClassName => "Label";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
@@ -33,9 +37,10 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(EndLabelStyle), true)]
     public class EndLabelStyleDrawer : LabelStyleDrawer
     {
-        public override string ClassName { get { return "End Label"; } }
+        public override string ClassName => "End Label";
     }
 }

@@ -1,23 +1,28 @@
 using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.UI;
+
 
 namespace XCharts.Runtime
 {
-    [UnityEngine.Scripting.Preserve]
+    [Preserve]
     internal sealed class ZAxis3DHander : AxisHandler<ZAxis3D>
     {
-        protected override Orient orient { get { return Orient.Vertical; } }
+        protected override Orient orient => Orient.Vertical;
+
 
         public override void InitComponent()
         {
             InitYAxis(component);
         }
 
+
         public override void Update()
         {
             UpdateAxisMinMaxValue(component.index, component);
             UpdatePointerValue(component);
         }
+
 
         public override void DrawBase(VertexHelper vh)
         {
@@ -27,9 +32,11 @@ namespace XCharts.Runtime
             DrawZAxisTick(vh, component.index, component);
         }
 
+
         private void UpdatePosition(ZAxis3D axis)
         {
             var grid = chart.GetChartComponent<GridCoord3D>(axis.gridIndex);
+
             if (grid != null)
             {
                 if (grid.context.pointB.x < grid.context.pointA.x)
@@ -52,6 +59,7 @@ namespace XCharts.Runtime
                     axis.context.start = grid.context.pointA;
                     axis.context.end = grid.context.pointE;
                 }
+
                 axis.context.x = axis.context.start.x;
                 axis.context.y = axis.context.start.y;
                 var vect = axis.context.end - axis.context.start;
@@ -60,31 +68,38 @@ namespace XCharts.Runtime
             }
         }
 
+
         private void InitYAxis(ZAxis3D yAxis)
         {
             var theme = chart.theme;
             var yAxisIndex = yAxis.index;
             yAxis.painter = chart.painter;
-            yAxis.refreshComponent = delegate ()
+
+            yAxis.refreshComponent = delegate
             {
                 var grid = chart.GetChartComponent<GridCoord3D>(yAxis.gridIndex);
+
                 if (grid != null)
                 {
                     var relativedAxis = chart.GetChartComponent<ZAxis3D>(yAxis.index);
                     InitAxis3D(relativedAxis, orient);
                 }
             };
+
             yAxis.refreshComponent();
         }
+
 
         internal override void UpdateAxisLabelText(Axis axis)
         {
             base.UpdateAxisLabelText(axis);
+
             if (axis.IsTime() || axis.IsValue())
             {
-                for (int i = 0; i < axis.context.labelObjectList.Count; i++)
+                for (var i = 0; i < axis.context.labelObjectList.Count; i++)
                 {
                     var label = axis.context.labelObjectList[i];
+
                     if (label != null)
                     {
                         var pos = GetLabelPosition(0, i);
@@ -95,38 +110,51 @@ namespace XCharts.Runtime
             }
         }
 
+
         protected override Vector3 GetLabelPosition(float scaleWid, int i)
         {
             var grid = chart.GetChartComponent<GridCoord3D>(component.gridIndex);
+
             if (grid == null)
+            {
                 return Vector3.zero;
+            }
 
             var yAxis = chart.GetChartComponent<XAxis3D>(component.index);
+
             return Axis3DHelper.GetLabelPosition(i, component, yAxis,
                 chart.theme.axis,
                 scaleWid);
         }
+
 
         private void DrawZAxisSplit(VertexHelper vh, int yAxisIndex, ZAxis3D yAxis)
         {
             if (AxisHelper.NeedShowSplit(yAxis))
             {
                 var grid = chart.GetChartComponent<GridCoord3D>(yAxis.gridIndex);
+
                 if (grid == null)
+                {
                     return;
+                }
 
                 var isLeft = grid.IsLeft();
+
                 if (grid.xyExchanged)
                 {
                     var relativedAxis = chart.GetChartComponent<XAxis3D>(yAxis.gridIndex);
                     var dataZoom = chart.GetDataZoomOfAxis(yAxis);
+
                     Axis3DHelper.DrawAxisSplit(vh, yAxis, chart.theme.axis, dataZoom,
                         isLeft ? grid.context.pointD : grid.context.pointA,
                         isLeft ? grid.context.pointH : grid.context.pointE,
                         relativedAxis);
+
                     if (yAxis.splitLine.showZLine)
                     {
                         var relativedAxis2 = chart.GetChartComponent<YAxis3D>(yAxis.gridIndex);
+
                         Axis3DHelper.DrawAxisSplit(vh, yAxis, chart.theme.axis, dataZoom,
                             grid.context.pointB,
                             grid.context.pointF,
@@ -137,13 +165,16 @@ namespace XCharts.Runtime
                 {
                     var relativedAxis = chart.GetChartComponent<YAxis3D>(yAxis.gridIndex);
                     var dataZoom = chart.GetDataZoomOfAxis(yAxis);
+
                     Axis3DHelper.DrawAxisSplit(vh, yAxis, chart.theme.axis, dataZoom,
                         isLeft ? grid.context.pointD : grid.context.pointA,
                         isLeft ? grid.context.pointH : grid.context.pointE,
                         relativedAxis);
+
                     if (yAxis.splitLine.showZLine)
                     {
                         var relativedAxis2 = chart.GetChartComponent<XAxis3D>(yAxis.gridIndex);
+
                         Axis3DHelper.DrawAxisSplit(vh, yAxis, chart.theme.axis, dataZoom,
                             grid.context.pointB,
                             grid.context.pointF,
@@ -153,16 +184,21 @@ namespace XCharts.Runtime
             }
         }
 
+
         private void DrawZAxisTick(VertexHelper vh, int yAxisIndex, ZAxis3D zAxis)
         {
             if (AxisHelper.NeedShowSplit(zAxis))
             {
                 var grid = chart.GetChartComponent<GridCoord3D>(zAxis.gridIndex);
+
                 if (grid == null)
+                {
                     return;
+                }
 
                 var dataZoom = chart.GetDataZoomOfAxis(zAxis);
                 var relativedDire = grid.context.pointA - grid.context.pointB;
+
                 Axis3DHelper.DrawAxisTick(vh, zAxis, chart.theme.axis, dataZoom,
                     zAxis.context.start,
                     zAxis.context.end,
@@ -170,13 +206,17 @@ namespace XCharts.Runtime
             }
         }
 
+
         private void DrawZAxisLine(VertexHelper vh, int axisIndex, ZAxis3D axis)
         {
             if (axis.show && axis.axisLine.show)
             {
                 var grid = chart.GetChartComponent<GridCoord3D>(axis.gridIndex);
+
                 if (grid == null)
+                {
                     return;
+                }
 
                 var theme = chart.theme.axis;
 
@@ -189,6 +229,7 @@ namespace XCharts.Runtime
                 ChartDrawer.DrawLineStyle(vh, lineType, lineWidth, start, end, lineColor);
             }
         }
+
 
         internal override float GetAxisLineXOrY()
         {

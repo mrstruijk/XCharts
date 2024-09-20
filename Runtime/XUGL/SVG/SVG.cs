@@ -1,12 +1,13 @@
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.UI;
+
 
 namespace XUGL
 {
     public static class SVG
     {
         public static bool yMirror = false;
+
+
         public static void Test(VertexHelper vh)
         {
             //UGL.DrawSvgPath(vh, "path://M600,800 C625,700 725,700 750,800 S875,900 900,800");
@@ -25,11 +26,13 @@ namespace XUGL
             //UGL.DrawSvgPath(vh, "path://M2.9,0.7L2.9,0.7c1.4,0,2.6,1.2,2.6,2.6v115c0,1.4-1.2,2.6-2.6,2.6l0,0c-1.4,0-2.6-1.2-2.6-2.6V3.3C0.3,1.9,1.4,0.7,2.9,0.7z");
         }
 
+
         public static void DrawPath(VertexHelper vh, string path)
         {
             var svgPath = SVGPath.Parse(path);
             DrawPath(vh, svgPath);
         }
+
 
         public static void DrawPath(VertexHelper vh, SVGPath path)
         {

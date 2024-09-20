@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using XCharts.Runtime;
-using ADB = UnityEditor.AssetDatabase;
+
 
 namespace XCharts.Editor
 {
@@ -20,6 +13,7 @@ namespace XCharts.Editor
             AddChart<PieChart>("PieChart");
         }
 
+
         [MenuItem("XCharts/PieChart/Pie With Label", priority = 46)]
         [MenuItem("GameObject/UI/XCharts/PieChart/Pie With Label", priority = 46)]
         public static void AddPieChart_WithLabel()
@@ -27,6 +21,7 @@ namespace XCharts.Editor
             var chart = AddChart<PieChart>("PieChart");
             chart.DefaultLabelPieChart();
         }
+
 
         [MenuItem("XCharts/PieChart/Donut", priority = 46)]
         [MenuItem("GameObject/UI/XCharts/PieChart/Donut", priority = 46)]
@@ -36,6 +31,7 @@ namespace XCharts.Editor
             chart.DefaultDonutPieChart();
         }
 
+
         [MenuItem("XCharts/PieChart/Donut With Label", priority = 46)]
         [MenuItem("GameObject/UI/XCharts/PieChart/Donut With Label", priority = 46)]
         public static void AddPieChart_DonutWithLabel()
@@ -44,6 +40,7 @@ namespace XCharts.Editor
             chart.DefaultLabelDonutPieChart();
         }
 
+
         [MenuItem("XCharts/PieChart/Radius Rose", priority = 46)]
         [MenuItem("GameObject/UI/XCharts/PieChart/Radius Rose", priority = 46)]
         public static void AddPieChart_RadiusRose()
@@ -51,6 +48,7 @@ namespace XCharts.Editor
             var chart = AddChart<PieChart>("PieChart");
             chart.DefaultRadiusRosePieChart();
         }
+
 
         [MenuItem("XCharts/PieChart/Area Rose", priority = 46)]
         [MenuItem("GameObject/UI/XCharts/PieChart/Area Rose", priority = 46)]

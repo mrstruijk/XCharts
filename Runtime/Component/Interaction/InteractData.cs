@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     public class InteractData
@@ -17,16 +18,18 @@ namespace XCharts.Runtime
         private bool m_UpdateFlag = false;
         private bool m_ValueEnable = false;
 
-        internal float targetVaue { get { return m_TargetValue; } }
-        internal float previousValue { get { return m_PreviousValue; } }
-        internal bool valueEnable { get { return m_ValueEnable; } }
-        internal bool updateFlag { get { return m_UpdateFlag; } }
+        internal float targetVaue => m_TargetValue;
+        internal float previousValue => m_PreviousValue;
+        internal bool valueEnable => m_ValueEnable;
+        internal bool updateFlag => m_UpdateFlag;
+
 
         public override string ToString()
         {
             return string.Format("m_PreviousValue:{0},m_TargetValue:{1},m_UpdateTime:{2},m_UpdateFlag:{3},m_ValueEnable:{4},m_PreviousPosition:{5},m_TargetPosition:{6}",
-            m_PreviousValue, m_TargetValue, m_UpdateTime, m_UpdateFlag, m_ValueEnable, m_PreviousPosition, m_TargetPosition);
+                m_PreviousValue, m_TargetValue, m_UpdateTime, m_UpdateFlag, m_ValueEnable, m_PreviousPosition, m_TargetPosition);
         }
+
 
         public void SetValue(ref bool needInteract, float value, bool highlight, float rate = 1.3f)
         {
@@ -34,15 +37,22 @@ namespace XCharts.Runtime
             SetValue(ref needInteract, value);
         }
 
+
         public void SetValue(ref bool needInteract, float value, bool previousValueZero = false)
         {
             if (m_TargetValue != value)
             {
                 needInteract = true;
+
                 if (!m_ValueEnable)
+                {
                     m_PreviousValue = previousValueZero ? 0 : value;
+                }
                 else
+                {
                     m_PreviousValue = m_CurrentValue;
+                }
+
                 UpdateStart();
                 m_TargetValue = value;
             }
@@ -51,6 +61,7 @@ namespace XCharts.Runtime
                 needInteract = true;
             }
         }
+
 
         public void SetPosition(ref bool needInteract, Vector3 pos)
         {
@@ -62,6 +73,7 @@ namespace XCharts.Runtime
                 m_TargetPosition = pos;
             }
         }
+
 
         public void SetColor(ref bool needInteract, Color32 color)
         {
@@ -77,9 +89,12 @@ namespace XCharts.Runtime
                 needInteract = true;
             }
         }
+
+
         public void SetColor(ref bool needInteract, Color32 color, Color32 toColor)
         {
             SetColor(ref needInteract, color);
+
             if (!ChartHelper.IsValueEqualsColor(toColor, m_TargetToColor))
             {
                 needInteract = true;
@@ -89,11 +104,13 @@ namespace XCharts.Runtime
             }
         }
 
+
         public void SetValueAndColor(ref bool needInteract, float value, Color32 color)
         {
             SetValue(ref needInteract, value);
             SetColor(ref needInteract, color);
         }
+
 
         public void SetValueAndColor(ref bool needInteract, float value, Color32 color, Color32 toColor)
         {
@@ -101,111 +118,148 @@ namespace XCharts.Runtime
             SetColor(ref needInteract, color, toColor);
         }
 
+
         public bool TryGetValue(ref float value, ref bool interacting, float animationDuration = 250)
         {
             if (!IsValueEnable() || animationDuration == 0)
+            {
                 return false;
+            }
+
             if (float.IsNaN(m_TargetValue))
+            {
                 return false;
+            }
+
             if (m_UpdateFlag && !float.IsNaN(m_PreviousValue))
             {
                 var rate = GetRate(animationDuration);
+
                 if (rate < 1)
                 {
                     interacting = true;
                     value = Mathf.Lerp(m_PreviousValue, m_TargetValue, rate);
                     m_CurrentValue = value;
+
                     return true;
                 }
-                else
-                {
-                    UpdateEnd();
-                }
+
+                UpdateEnd();
             }
+
             value = m_TargetValue;
+
             return true;
         }
+
 
         public bool TryGetPosition(ref Vector3 pos, ref bool interacting, float animationDuration = 250)
         {
             if (!IsValueEnable() || animationDuration == 0)
+            {
                 return false;
+            }
+
             if (m_TargetPosition == Vector3.one)
             {
                 return false;
             }
+
             if (m_UpdateFlag && m_PreviousPosition != Vector3.one)
             {
                 var rate = GetRate(animationDuration);
+
                 if (rate < 1)
                 {
                     interacting = true;
                     pos = Vector3.Lerp(m_PreviousPosition, m_TargetPosition, rate);
+
                     return true;
                 }
-                else
-                {
-                    UpdateEnd();
-                }
+
+                UpdateEnd();
             }
+
             pos = m_TargetPosition;
+
             return true;
         }
+
 
         public bool TryGetColor(ref Color32 color, ref bool interacting, float animationDuration = 250)
         {
             if (!IsValueEnable() || animationDuration == 0)
+            {
                 return false;
+            }
+
             if (m_UpdateFlag)
             {
                 var rate = GetRate(animationDuration);
+
                 if (rate < 1)
                 {
                     interacting = true;
                     color = Color32.Lerp(m_PreviousColor, m_TargetColor, rate);
+
                     return true;
                 }
-                else
-                {
-                    UpdateEnd();
-                }
+
+                UpdateEnd();
             }
+
             color = m_TargetColor;
+
             return true;
         }
+
 
         public bool TryGetColor(ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)
         {
             if (!IsValueEnable() || animationDuration == 0)
+            {
                 return false;
+            }
+
             if (m_UpdateFlag)
             {
                 var rate = GetRate(animationDuration);
+
                 if (rate < 1)
                 {
                     interacting = true;
                     color = Color32.Lerp(m_PreviousColor, m_TargetColor, rate);
                     toColor = Color32.Lerp(m_PreviousToColor, m_TargetToColor, rate);
+
                     return true;
                 }
-                else
-                {
-                    UpdateEnd();
-                }
+
+                UpdateEnd();
             }
+
             color = m_TargetColor;
             toColor = m_TargetToColor;
+
             return true;
         }
+
+
         public bool TryGetValueAndColor(ref float value, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)
         {
             if (!IsValueEnable() || animationDuration == 0)
+            {
                 return false;
+            }
+
             if (float.IsNaN(m_TargetValue))
+            {
                 return false;
+            }
+
             if (m_UpdateFlag && !float.IsNaN(m_PreviousValue))
             {
                 var rate = GetRate(animationDuration);
+
                 if (rate < 1)
                 {
                     interacting = true;
@@ -213,27 +267,35 @@ namespace XCharts.Runtime
                     color = Color32.Lerp(m_PreviousColor, m_TargetColor, rate);
                     toColor = Color32.Lerp(m_PreviousToColor, m_TargetToColor, rate);
                     m_CurrentValue = value;
+
                     return true;
                 }
-                else
-                {
-                    UpdateEnd();
-                }
+
+                UpdateEnd();
             }
+
             value = m_TargetValue;
             color = m_TargetColor;
             toColor = m_TargetToColor;
+
             return true;
         }
+
 
         private float GetRate(float animationDuration)
         {
             var time = Time.time - m_UpdateTime;
             var total = animationDuration / 1000;
             var rate = time / total;
-            if (rate > 1) rate = 1;
+
+            if (rate > 1)
+            {
+                rate = 1;
+            }
+
             return rate;
         }
+
 
         private void UpdateStart()
         {
@@ -242,9 +304,14 @@ namespace XCharts.Runtime
             m_UpdateTime = Time.time;
         }
 
+
         private void UpdateEnd()
         {
-            if (!m_UpdateFlag) return;
+            if (!m_UpdateFlag)
+            {
+                return;
+            }
+
             m_UpdateFlag = false;
             m_PreviousColor = m_TargetColor;
             m_PreviousToColor = m_TargetToColor;
@@ -253,19 +320,24 @@ namespace XCharts.Runtime
             m_PreviousPosition = m_TargetPosition;
         }
 
+
         public bool TryGetValueAndColor(ref float value, ref Vector3 pos, ref Color32 color, ref Color32 toColor, ref bool interacting, float animationDuration = 250)
         {
             var flag = TryGetValueAndColor(ref value, ref color, ref toColor, ref interacting, animationDuration);
             flag |= TryGetPosition(ref pos, ref interacting, animationDuration);
+
             return flag;
         }
+
 
         public bool TryGetValueAndColor(ref float value, ref Vector3 pos, ref bool interacting, float animationDuration = 250)
         {
             var flag = TryGetValue(ref value, ref interacting, animationDuration);
             flag |= TryGetPosition(ref pos, ref interacting, animationDuration);
+
             return flag;
         }
+
 
         public void Reset()
         {
@@ -282,12 +354,15 @@ namespace XCharts.Runtime
             m_PreviousToColor = ColorUtil.clearColor32;
         }
 
+
         private bool IsValueEnable()
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             if (!Application.isPlaying)
+            {
                 return false;
-#endif
+            }
+            #endif
             return m_ValueEnable;
         }
     }

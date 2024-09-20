@@ -1,14 +1,11 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 namespace XCharts.Runtime
 {
     public class LegendItem
     {
-        private int m_Index;
-        private string m_Name;
-        private string m_LegendName;
         private GameObject m_GameObject;
         private Button m_Button;
         private Image m_Icon;
@@ -20,16 +17,19 @@ namespace XCharts.Runtime
         private RectTransform m_TextRect;
         private RectTransform m_TextBackgroundRect;
         private float m_Gap = 0f;
-        private float m_LabelPaddingLeftRight = 0f;
-        private float m_LabelPaddingTopBottom = 0f;
-        private bool m_LabelAutoSize = true;
+        private readonly float m_LabelPaddingLeftRight = 0f;
+        private readonly float m_LabelPaddingTopBottom = 0f;
+        private readonly bool m_LabelAutoSize = true;
 
-        public int index { get { return m_Index; } set { m_Index = value; } }
-        public string name { get { return m_Name; } set { m_Name = value; } }
-        public string legendName { get { return m_LegendName; } set { m_LegendName = value; } }
-        public GameObject gameObject { get { return m_GameObject; } }
-        public Button button { get { return m_Button; } }
-        public ChartText text { get { return m_Text; } }
+        public int index { get; set; }
+
+        public string name { get; set; }
+
+        public string legendName { get; set; }
+
+        public GameObject gameObject => m_GameObject;
+        public Button button => m_Button;
+        public ChartText text => m_Text;
 
         public float width
         {
@@ -39,10 +39,8 @@ namespace XCharts.Runtime
                 {
                     return m_IconRect.sizeDelta.x + m_Gap + m_TextBackgroundRect.sizeDelta.x;
                 }
-                else
-                {
-                    return 0;
-                }
+
+                return 0;
             }
         }
 
@@ -54,12 +52,11 @@ namespace XCharts.Runtime
                 {
                     return Mathf.Max(m_IconRect.sizeDelta.y, m_TextBackgroundRect.sizeDelta.y);
                 }
-                else
-                {
-                    return m_Text.GetPreferredHeight();
-                }
+
+                return m_Text.GetPreferredHeight();
             }
         }
+
 
         public void SetObject(GameObject obj)
         {
@@ -75,25 +72,30 @@ namespace XCharts.Runtime
             m_TextBackgroundRect = m_TextBackground.gameObject.GetComponent<RectTransform>();
         }
 
+
         public void SetButton(Button button)
         {
             m_Button = button;
         }
+
 
         public void SetIcon(Image icon)
         {
             m_Icon = icon;
         }
 
+
         public void SetText(ChartText text)
         {
             m_Text = text;
         }
 
+
         public void SetTextBackground(Image image)
         {
             m_TextBackground = image;
         }
+
 
         public void SetIconSize(float width, float height)
         {
@@ -103,6 +105,7 @@ namespace XCharts.Runtime
             }
         }
 
+
         public Rect GetIconRect()
         {
             if (m_GameObject && m_IconRect)
@@ -110,19 +113,24 @@ namespace XCharts.Runtime
                 var pos = m_GameObject.transform.localPosition;
                 var sizeDelta = m_IconRect.sizeDelta;
                 var y = pos.y - (m_Rect.sizeDelta.y - sizeDelta.y) / 2 - sizeDelta.y;
+
                 return new Rect(pos.x, y, m_IconRect.sizeDelta.x, m_IconRect.sizeDelta.y);
             }
-            else
-            {
-                return Rect.zero;
-            }
+
+            return Rect.zero;
         }
+
 
         public Color GetIconColor()
         {
-            if (m_Icon) return m_Icon.color;
-            else return Color.clear;
+            if (m_Icon)
+            {
+                return m_Icon.color;
+            }
+
+            return Color.clear;
         }
+
 
         public void SetIconColor(Color color)
         {
@@ -132,6 +140,7 @@ namespace XCharts.Runtime
             }
         }
 
+
         public void SetIconImage(Sprite image)
         {
             if (m_Icon)
@@ -139,6 +148,7 @@ namespace XCharts.Runtime
                 m_Icon.sprite = image;
             }
         }
+
 
         public void SetIconActive(bool active)
         {
@@ -148,6 +158,7 @@ namespace XCharts.Runtime
             }
         }
 
+
         public void SetContentColor(Color color)
         {
             if (m_Text != null)
@@ -155,6 +166,7 @@ namespace XCharts.Runtime
                 m_Text.SetColor(color);
             }
         }
+
 
         public void SetContentBackgroundColor(Color color)
         {
@@ -164,9 +176,11 @@ namespace XCharts.Runtime
             }
         }
 
+
         public void SetContentPosition(Vector3 offset)
         {
             m_Gap = offset.x;
+
             if (m_TextBackgroundRect)
             {
                 var posX = m_IconRect.sizeDelta.x + offset.x;
@@ -174,32 +188,43 @@ namespace XCharts.Runtime
             }
         }
 
+
         public bool SetContent(string content)
         {
-            if (m_Text == null) return false;
+            if (m_Text == null)
+            {
+                return false;
+            }
+
             if (!m_Text.GetText().Equals(content))
             {
                 m_Text.SetText(content);
+
                 if (m_LabelAutoSize)
                 {
-                    var newSize = string.IsNullOrEmpty(content) ? Vector2.zero :
-                        new Vector2(m_Text.GetPreferredWidth(), m_Text.GetPreferredHeight());
+                    var newSize = string.IsNullOrEmpty(content) ? Vector2.zero : new Vector2(m_Text.GetPreferredWidth(), m_Text.GetPreferredHeight());
                     var sizeChange = newSize.x != m_TextRect.sizeDelta.x || newSize.y != m_TextRect.sizeDelta.y;
+
                     if (sizeChange)
                     {
                         m_TextRect.sizeDelta = newSize;
                         m_TextRect.anchoredPosition3D = new Vector3(m_LabelPaddingLeftRight, 0);
+
                         m_TextBackgroundRect.sizeDelta = new Vector2(m_Text.GetPreferredWidth() + m_LabelPaddingLeftRight * 2,
                             m_Text.GetPreferredHeight() + m_LabelPaddingTopBottom * 2 - 4);
-
                     }
+
                     m_Rect.sizeDelta = new Vector3(width, height);
+
                     return sizeChange;
                 }
             }
+
             m_Rect.sizeDelta = new Vector3(width, height);
+
             return false;
         }
+
 
         public void SetPosition(Vector3 position)
         {
@@ -209,6 +234,7 @@ namespace XCharts.Runtime
             }
         }
 
+
         public void SetActive(bool active)
         {
             if (m_GameObject)
@@ -216,6 +242,7 @@ namespace XCharts.Runtime
                 m_GameObject.SetActive(active);
             }
         }
+
 
         public void SetBackground(ImageStyle imageStyle)
         {

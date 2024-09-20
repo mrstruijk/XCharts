@@ -1,9 +1,10 @@
 using System;
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
-    [System.Serializable]
+    [Serializable]
     public class EndLabelStyle : LabelStyle
     {
         public EndLabelStyle()

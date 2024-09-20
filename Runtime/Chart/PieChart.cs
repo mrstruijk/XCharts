@@ -1,10 +1,12 @@
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     /// <summary>
-    /// The pie chart is mainly used for showing proportion of different categories. Each arc length represents the proportion of data quantity.    
-    /// || 饼图主要用于显示不同类目占比的情况，通过弧长来反映数据的大小占比。     
+    ///     The pie chart is mainly used for showing proportion of different categories. Each arc length represents the
+    ///     proportion of data quantity.
+    ///     || 饼图主要用于显示不同类目占比的情况，通过弧长来反映数据的大小占比。
     /// </summary>
     [AddComponentMenu("XCharts/PieChart", 15)]
     [ExecuteInEditMode]
@@ -22,9 +24,10 @@ namespace XCharts.Runtime
             Pie.AddDefaultSerie(this, GenerateDefaultSerieName());
         }
 
+
         /// <summary>
-        /// default label pie chart.
-        /// || 默认带标签饼图。
+        ///     default label pie chart.
+        ///     || 默认带标签饼图。
         /// </summary>
         public void DefaultLabelPieChart()
         {
@@ -34,9 +37,10 @@ namespace XCharts.Runtime
             serie.EnsureComponent<LabelLine>();
         }
 
+
         /// <summary>
-        /// default donut pie chart.
-        /// || 默认甜甜圈饼图。
+        ///     default donut pie chart.
+        ///     || 默认甜甜圈饼图。
         /// </summary>
         public void DefaultDonutPieChart()
         {
@@ -46,9 +50,10 @@ namespace XCharts.Runtime
             serie.radius[1] = 0.28f;
         }
 
+
         /// <summary>
-        /// default label donut pie chart.
-        /// || 默认带标签甜甜圈饼图。
+        ///     default label donut pie chart.
+        ///     || 默认带标签甜甜圈饼图。
         /// </summary>
         public void DefaultLabelDonutPieChart()
         {
@@ -60,9 +65,10 @@ namespace XCharts.Runtime
             serie.EnsureComponent<LabelLine>();
         }
 
+
         /// <summary>
-        /// default rose pie chart.
-        /// || 默认玫瑰饼图。
+        ///     default rose pie chart.
+        ///     || 默认玫瑰饼图。
         /// </summary>
         public void DefaultRadiusRosePieChart()
         {
@@ -73,9 +79,10 @@ namespace XCharts.Runtime
             serie.EnsureComponent<LabelLine>();
         }
 
+
         /// <summary>
-        /// default area rose pie chart.
-        /// || 默认面积玫瑰饼图。
+        ///     default area rose pie chart.
+        ///     || 默认面积玫瑰饼图。
         /// </summary>
         public void DefaultAreaRosePieChart()
         {

@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using XCharts.Runtime;
-using ADB = UnityEditor.AssetDatabase;
+
 
 namespace XCharts.Editor
 {
@@ -20,6 +13,7 @@ namespace XCharts.Editor
             AddChart<BarChart>("BarChart");
         }
 
+
         [MenuItem("XCharts/BarChart/Zebra Column", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Zebra Column", priority = 45)]
         public static void AddBarChart_ZebraColumn()
@@ -27,6 +21,7 @@ namespace XCharts.Editor
             var chart = AddChart<BarChart>("BarChart", "Zebra Column");
             chart.DefaultZebraColumnChart();
         }
+
 
         [MenuItem("XCharts/BarChart/Capsule Column", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Capsule Column", priority = 45)]
@@ -36,6 +31,7 @@ namespace XCharts.Editor
             chart.DefaultCapsuleColumnChart();
         }
 
+
         [MenuItem("XCharts/BarChart/Grouped Column", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Grouped Column", priority = 45)]
         public static void AddBarChart_GroupedColumn()
@@ -43,6 +39,7 @@ namespace XCharts.Editor
             var chart = AddChart<BarChart>("BarChart", "Grouped Column");
             chart.DefaultGroupedColumnChart();
         }
+
 
         [MenuItem("XCharts/BarChart/Stacked Column", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Stacked Column", priority = 45)]
@@ -52,6 +49,7 @@ namespace XCharts.Editor
             chart.DefaultStackedColumnChart();
         }
 
+
         [MenuItem("XCharts/BarChart/Percent Column", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Percent Column", priority = 45)]
         public static void AddBarChart_PercentColumn()
@@ -59,6 +57,7 @@ namespace XCharts.Editor
             var chart = AddChart<BarChart>("BarChart", "Percent Column");
             chart.DefaultPercentColumnChart();
         }
+
 
         [MenuItem("XCharts/BarChart/Baisc Bar", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Baisc Bar", priority = 45)]
@@ -68,6 +67,7 @@ namespace XCharts.Editor
             chart.DefaultBarChart();
         }
 
+
         [MenuItem("XCharts/BarChart/Zebra Bar", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Zebra Bar", priority = 45)]
         public static void AddBarChart_ZebraBar()
@@ -75,6 +75,7 @@ namespace XCharts.Editor
             var chart = AddChart<BarChart>("BarChart", "Zebra Bar");
             chart.DefaultZebraBarChart();
         }
+
 
         [MenuItem("XCharts/BarChart/Capsule Bar", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Capsule Bar", priority = 45)]
@@ -84,6 +85,7 @@ namespace XCharts.Editor
             chart.DefaultCapsuleBarChart();
         }
 
+
         [MenuItem("XCharts/BarChart/Grouped Bar", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Grouped Bar", priority = 45)]
         public static void AddBarChart_GroupedBar()
@@ -92,6 +94,7 @@ namespace XCharts.Editor
             chart.DefaultGroupedBarChart();
         }
 
+
         [MenuItem("XCharts/BarChart/Stacked Bar", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Stacked Bar", priority = 45)]
         public static void AddBarChart_StackedBar()
@@ -99,6 +102,7 @@ namespace XCharts.Editor
             var chart = AddChart<BarChart>("BarChart", "Stacked Bar");
             chart.DefaultStackedBarChart();
         }
+
 
         [MenuItem("XCharts/BarChart/Percent Bar", priority = 45)]
         [MenuItem("GameObject/UI/XCharts/BarChart/Percent Bar", priority = 45)]

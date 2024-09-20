@@ -1,28 +1,32 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using XCharts.Runtime;
 #if dUI_TextMeshPro
 using TMPro;
 #endif
-using XCharts.Runtime;
+
 
 namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(ComponentTheme), true)]
     public class ComponentThemeDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return ""; } }
+        public override string ClassName => "";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "", true))
             {
                 ++EditorGUI.indentLevel;
-#if dUI_TextMeshPro
+                #if dUI_TextMeshPro
                 PropertyField(prop, "m_TMPFont");
-#else
+                #else
                 PropertyField(prop, "m_Font");
-#endif
+                #endif
                 PropertyField(prop, "m_FontSize");
                 PropertyField(prop, "m_TextColor");
                 DrawExtendeds(prop);
@@ -31,10 +35,13 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(BaseAxisTheme), true)]
     public class BaseAxisThemeDrawer : ComponentThemeDrawer
     {
-        public override string ClassName { get { return "Axis"; } }
+        public override string ClassName => "Axis";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -53,34 +60,35 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisTheme), true)]
     public class AxisThemeDrawer : BaseAxisThemeDrawer
     {
-        public override string ClassName { get { return "Axis"; } }
+        public override string ClassName => "Axis";
     }
+
 
     [CustomPropertyDrawer(typeof(RadiusAxisTheme), true)]
     public class RadiusAxisThemeDrawer : BaseAxisThemeDrawer
     {
-        public override string ClassName { get { return "Radius Axis"; } }
-        public override List<string> IngorePropertys
-        {
-            get
+        public override string ClassName => "Radius Axis";
+
+        public override List<string> IngorePropertys =>
+            new()
             {
-                return new List<string>
-                {
-                    "m_TextBackgroundColor",
-                    "m_LineLength",
-                    "m_SplitLineLength",
-                };
-            }
-        }
+                "m_TextBackgroundColor",
+                "m_LineLength",
+                "m_SplitLineLength"
+            };
     }
+
 
     [CustomPropertyDrawer(typeof(DataZoomTheme), true)]
     public class DataZoomThemeDrawer : ComponentThemeDrawer
     {
-        public override string ClassName { get { return "DataZoom"; } }
+        public override string ClassName => "DataZoom";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -91,14 +99,16 @@ namespace XCharts.Editor
             PropertyField(prop, "m_DataLineColor");
             PropertyField(prop, "m_FillerColor");
             PropertyField(prop, "m_DataAreaColor");
-
         }
     }
+
 
     [CustomPropertyDrawer(typeof(LegendTheme), true)]
     public class LegendThemeDrawer : ComponentThemeDrawer
     {
-        public override string ClassName { get { return "Legend"; } }
+        public override string ClassName => "Legend";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -106,10 +116,13 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(TooltipTheme), true)]
     public class TooltipThemeDrawer : ComponentThemeDrawer
     {
-        public override string ClassName { get { return "Tooltip"; } }
+        public override string ClassName => "Tooltip";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -122,10 +135,13 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(VisualMapTheme), true)]
     public class VisualMapThemeDrawer : ComponentThemeDrawer
     {
-        public override string ClassName { get { return "VisualMap"; } }
+        public override string ClassName => "VisualMap";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -135,13 +151,17 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(SerieTheme), true)]
     public class SerieThemeDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Serie"; } }
+        public override string ClassName => "Serie";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "", true))
             {
                 ++EditorGUI.indentLevel;

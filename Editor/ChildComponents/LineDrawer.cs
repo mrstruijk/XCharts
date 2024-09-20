@@ -2,15 +2,19 @@ using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(BaseLine), true)]
     public class BaseLineDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Line"; } }
+        public override string ClassName => "Line";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;
@@ -21,10 +25,13 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisLine), true)]
     public class AxisLineDrawer : BaseLineDrawer
     {
-        public override string ClassName { get { return "AxisLine"; } }
+        public override string ClassName => "AxisLine";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -34,10 +41,13 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisSplitLine), true)]
     public class AxisSplitLineDrawer : BaseLineDrawer
     {
-        public override string ClassName { get { return "SplitLine"; } }
+        public override string ClassName => "SplitLine";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -50,10 +60,13 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisMinorSplitLine), true)]
     public class AxisMinorSplitLineDrawer : BaseLineDrawer
     {
-        public override string ClassName { get { return "MinorSplitLine"; } }
+        public override string ClassName => "MinorSplitLine";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -62,10 +75,13 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisTick), true)]
     public class AxisTickDrawer : BaseLineDrawer
     {
-        public override string ClassName { get { return "AxisTick"; } }
+        public override string ClassName => "AxisTick";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);
@@ -79,10 +95,13 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AxisMinorTick), true)]
     public class AxisMinorTickDrawer : BaseLineDrawer
     {
-        public override string ClassName { get { return "MinorTick"; } }
+        public override string ClassName => "MinorTick";
+
+
         protected override void DrawExtendeds(SerializedProperty prop)
         {
             base.DrawExtendeds(prop);

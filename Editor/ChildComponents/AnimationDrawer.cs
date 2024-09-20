@@ -1,15 +1,18 @@
 using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
+using AnimationInfo = XCharts.Runtime.AnimationInfo;
+
 
 namespace XCharts.Editor
 {
-    [CustomPropertyDrawer(typeof(XCharts.Runtime.AnimationInfo), true)]
+    [CustomPropertyDrawer(typeof(AnimationInfo), true)]
     public class AnimationInfoDrawer : BasePropertyDrawer
     {
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Enable", true))
             {
                 ++EditorGUI.indentLevel;
@@ -20,12 +23,14 @@ namespace XCharts.Editor
         }
     }
 
-    [CustomPropertyDrawer(typeof(XCharts.Runtime.AnimationChange), true)]
+
+    [CustomPropertyDrawer(typeof(AnimationChange), true)]
     public class AnimationChangeDrawer : BasePropertyDrawer
     {
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Enable", true))
             {
                 ++EditorGUI.indentLevel;
@@ -35,12 +40,14 @@ namespace XCharts.Editor
         }
     }
 
-    [CustomPropertyDrawer(typeof(XCharts.Runtime.AnimationAddition), true)]
+
+    [CustomPropertyDrawer(typeof(AnimationAddition), true)]
     public class AnimationAdditionDrawer : BasePropertyDrawer
     {
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Enable", true))
             {
                 ++EditorGUI.indentLevel;
@@ -50,12 +57,14 @@ namespace XCharts.Editor
         }
     }
 
-    [CustomPropertyDrawer(typeof(XCharts.Runtime.AnimationInteraction), true)]
+
+    [CustomPropertyDrawer(typeof(AnimationInteraction), true)]
     public class AnimationInteractionDrawer : BasePropertyDrawer
     {
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Enable", true))
             {
                 ++EditorGUI.indentLevel;
@@ -68,13 +77,17 @@ namespace XCharts.Editor
         }
     }
 
+
     [CustomPropertyDrawer(typeof(AnimationStyle), true)]
     public class AnimationDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Animation"; } }
+        public override string ClassName => "Animation";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Enable", true))
             {
                 ++EditorGUI.indentLevel;

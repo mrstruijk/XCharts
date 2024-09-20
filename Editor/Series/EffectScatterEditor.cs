@@ -1,5 +1,6 @@
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [SerieEditor(typeof(EffectScatter))]
@@ -16,6 +17,7 @@ namespace XCharts.Editor
                 PropertyField("m_XAxisIndex");
                 PropertyField("m_YAxisIndex");
             }
+
             PropertyField("m_Clip");
             PropertyField("m_Symbol");
 

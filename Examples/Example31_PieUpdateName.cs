@@ -3,31 +3,42 @@ using XCharts.Runtime;
 #if INPUT_SYSTEM_ENABLED
 using Input = XCharts.Runtime.InputHelper;
 #endif
+
+
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class Example31_PieUpdateName : MonoBehaviour
     {
-        PieChart chart;
+        private PieChart chart;
 
-        void Awake()
+
+        private void Awake()
         {
             chart = gameObject.GetComponent<PieChart>();
+
             if (chart == null)
             {
                 chart = gameObject.AddComponent<PieChart>();
                 chart.Init();
             }
+
             var serieIndex = 0;
             var serie = chart.GetSerie(serieIndex);
-            if (serie == null) return;
+
+            if (serie == null)
+            {
+                return;
+            }
+
             serie.EnsureComponent<LabelStyle>();
             serie.label.show = true;
             serie.label.position = LabelStyle.Position.Outside;
         }
 
-        void Update()
+
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -37,12 +48,18 @@ namespace XCharts.Example
             }
         }
 
-        void UpdateDataName()
+
+        private void UpdateDataName()
         {
             var serieIndex = 0;
             var serie = chart.GetSerie(serieIndex);
-            if (serie == null) return;
-            for (int i = 0; i < serie.dataCount; i++)
+
+            if (serie == null)
+            {
+                return;
+            }
+
+            for (var i = 0; i < serie.dataCount; i++)
             {
                 var value = Random.Range(10, 100);
                 chart.UpdateData(serieIndex, i, value);
@@ -50,25 +67,38 @@ namespace XCharts.Example
             }
         }
 
-        void ResetSameName()
+
+        private void ResetSameName()
         {
             var serieIndex = 0;
             var serie = chart.GetSerie(serieIndex);
-            if (serie == null) return;
-            for (int i = 0; i < serie.dataCount; i++)
+
+            if (serie == null)
+            {
+                return;
+            }
+
+            for (var i = 0; i < serie.dataCount; i++)
             {
                 chart.UpdateDataName(serieIndex, i, "piename");
             }
         }
 
-        void ClearAndAddData()
+
+        private void ClearAndAddData()
         {
             var serieIndex = 0;
             var serie = chart.GetSerie(serieIndex);
-            if (serie == null) return;
-            int count = serie.dataCount;
+
+            if (serie == null)
+            {
+                return;
+            }
+
+            var count = serie.dataCount;
             serie.ClearData();
-            for (int i = 0; i < count; i++)
+
+            for (var i = 0; i < count; i++)
             {
                 chart.AddData(0, Random.Range(0, 100), "pie" + i);
             }

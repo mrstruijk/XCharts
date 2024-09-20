@@ -1,8 +1,9 @@
 using UnityEngine;
+using XCharts.Runtime;
 #if INPUT_SYSTEM_ENABLED
 using Input = XCharts.Runtime.InputHelper;
 #endif
-using XCharts.Runtime;
+
 
 namespace XCharts.Example
 {
@@ -10,12 +11,13 @@ namespace XCharts.Example
     [ExecuteInEditMode]
     public class Example13_LineSimple : MonoBehaviour
     {
-        void Awake()
+        private void Awake()
         {
             AddData();
         }
 
-        void Update()
+
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -23,14 +25,17 @@ namespace XCharts.Example
             }
         }
 
-        void AddData()
+
+        private void AddData()
         {
             var chart = gameObject.GetComponent<LineChart>();
+
             if (chart == null)
             {
                 chart = gameObject.AddComponent<LineChart>();
                 chart.Init();
             }
+
             chart.EnsureChartComponent<Title>().show = true;
             chart.EnsureChartComponent<Title>().text = "Line Simple";
 
@@ -50,7 +55,8 @@ namespace XCharts.Example
             chart.RemoveData();
             chart.AddSerie<Line>();
             chart.AddSerie<Line>();
-            for (int i = 0; i < 20; i++)
+
+            for (var i = 0; i < 20; i++)
             {
                 chart.AddXAxisData("x" + i);
                 chart.AddData(0, Random.Range(10, 20));

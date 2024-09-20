@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 namespace XCharts.Runtime
 {
@@ -19,7 +19,7 @@ namespace XCharts.Runtime
         public int destPointIndex;
         public Vector3 currPoint;
         public Vector3 destPoint;
-        public Dictionary<int, float> dataCurrProgress = new Dictionary<int, float>();
-        public Dictionary<int, float> dataDestProgress = new Dictionary<int, float>();
+        public Dictionary<int, float> dataCurrProgress = new();
+        public Dictionary<int, float> dataDestProgress = new();
     }
 }

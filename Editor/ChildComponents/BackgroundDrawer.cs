@@ -2,15 +2,19 @@ using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(Background), true)]
     public class BackgroundDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Background"; } }
+        public override string ClassName => "Background";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", true))
             {
                 ++EditorGUI.indentLevel;

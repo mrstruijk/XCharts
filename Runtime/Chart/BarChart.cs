@@ -1,10 +1,12 @@
 using UnityEngine;
 
+
 namespace XCharts.Runtime
 {
     /// <summary>
-    /// Bar chart shows different data through the height of a bar, which is used in rectangular coordinate with at least 1 category axis.
-    /// || 柱状图（或称条形图）是一种通过柱形的高度（横向的情况下则是宽度）来表现数据大小的一种常用图表类型。
+    ///     Bar chart shows different data through the height of a bar, which is used in rectangular coordinate with at least 1
+    ///     category axis.
+    ///     || 柱状图（或称条形图）是一种通过柱形的高度（横向的情况下则是宽度）来表现数据大小的一种常用图表类型。
     /// </summary>
     [AddComponentMenu("XCharts/BarChart", 14)]
     [ExecuteInEditMode]
@@ -21,39 +23,53 @@ namespace XCharts.Runtime
 
             RemoveData();
             Bar.AddDefaultSerie(this, GenerateDefaultSerieName());
-            for (int i = 0; i < 5; i++)
+
+            for (var i = 0; i < 5; i++)
             {
                 AddXAxisData("x" + (i + 1));
             }
         }
 
+
         /// <summary>
-        /// default zebra column chart.
-        /// || 斑马柱状图。
+        ///     default zebra column chart.
+        ///     || 斑马柱状图。
         /// </summary>
         public void DefaultZebraColumnChart()
         {
             CheckChartInit();
             var serie = GetSerie(0);
-            if (serie == null) return;
+
+            if (serie == null)
+            {
+                return;
+            }
+
             serie.barType = BarType.Zebra;
         }
 
+
         /// <summary>
-        /// default capsule column chart.
-        /// || 胶囊柱状图。
+        ///     default capsule column chart.
+        ///     || 胶囊柱状图。
         /// </summary>
         public void DefaultCapsuleColumnChart()
         {
             CheckChartInit();
             var serie = GetSerie(0);
-            if (serie == null) return;
+
+            if (serie == null)
+            {
+                return;
+            }
+
             serie.barType = BarType.Capsule;
         }
 
+
         /// <summary>
-        /// default grouped column chart.
-        /// || 默认分组柱状图。
+        ///     default grouped column chart.
+        ///     || 默认分组柱状图。
         /// </summary>
         public void DefaultGroupedColumnChart()
         {
@@ -61,9 +77,10 @@ namespace XCharts.Runtime
             Bar.AddDefaultSerie(this, GenerateDefaultSerieName());
         }
 
+
         /// <summary>
-        /// default stacked column chart.
-        /// || 默认堆叠分组柱状图。
+        ///     default stacked column chart.
+        ///     || 默认堆叠分组柱状图。
         /// </summary>
         public void DefaultStackedColumnChart()
         {
@@ -74,9 +91,10 @@ namespace XCharts.Runtime
             serie2.stack = "stack1";
         }
 
+
         /// <summary>
-        /// default percent column chart.
-        /// || 默认百分比柱状图。
+        ///     default percent column chart.
+        ///     || 默认百分比柱状图。
         /// </summary>
         public void DefaultPercentColumnChart()
         {
@@ -89,9 +107,10 @@ namespace XCharts.Runtime
             serie2.barPercentStack = true;
         }
 
+
         /// <summary>
-        /// default bar chart.
-        /// || 默认条形图。
+        ///     default bar chart.
+        ///     || 默认条形图。
         /// </summary>
         public void DefaultBarChart()
         {
@@ -99,9 +118,10 @@ namespace XCharts.Runtime
             CovertColumnToBar(this);
         }
 
+
         /// <summary>
-        /// default zebra bar chart.
-        /// || 默认斑马条形图。 
+        ///     default zebra bar chart.
+        ///     || 默认斑马条形图。
         /// </summary>
         public void DefaultZebraBarChart()
         {
@@ -111,9 +131,10 @@ namespace XCharts.Runtime
             CovertColumnToBar(this);
         }
 
+
         /// <summary>
-        /// default capsule bar chart.
-        /// || 默认胶囊条形图。
+        ///     default capsule bar chart.
+        ///     || 默认胶囊条形图。
         /// </summary>
         public void DefaultCapsuleBarChart()
         {
@@ -123,9 +144,10 @@ namespace XCharts.Runtime
             CovertColumnToBar(this);
         }
 
+
         /// <summary>
-        /// default grouped bar chart.
-        /// || 默认分组条形图。
+        ///     default grouped bar chart.
+        ///     || 默认分组条形图。
         /// </summary>
         public void DefaultGroupedBarChart()
         {
@@ -134,9 +156,10 @@ namespace XCharts.Runtime
             CovertColumnToBar(this);
         }
 
+
         /// <summary>
-        /// default stacked bar chart.
-        /// || 默认堆叠条形图。
+        ///     default stacked bar chart.
+        ///     || 默认堆叠条形图。
         /// </summary>
         public void DefaultStackedBarChart()
         {
@@ -148,9 +171,10 @@ namespace XCharts.Runtime
             CovertColumnToBar(this);
         }
 
+
         /// <summary>
-        /// default percent bar chart.
-        /// || 默认百分比条形图。
+        ///     default percent bar chart.
+        ///     || 默认百分比条形图。
         /// </summary>
         public void DefaultPercentBarChart()
         {
@@ -163,6 +187,7 @@ namespace XCharts.Runtime
             serie2.barPercentStack = true;
             CovertColumnToBar(this);
         }
+
 
         private static void CovertColumnToBar(BarChart chart)
         {

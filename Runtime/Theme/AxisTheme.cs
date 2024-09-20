@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 #endif
 
+
 namespace XCharts.Runtime
 {
     [Serializable]
@@ -22,125 +23,8 @@ namespace XCharts.Runtime
         [SerializeField] protected float m_TickWidth = 1f;
         [SerializeField] protected float m_TickLength = 5f;
         [SerializeField] protected Color32 m_TickColor;
-        [SerializeField] protected List<Color32> m_SplitAreaColors = new List<Color32>();
+        [SerializeField] protected List<Color32> m_SplitAreaColors = new();
 
-        /// <summary>
-        /// the type of line.
-        /// ||坐标轴线类型。
-        /// </summary>
-        public LineStyle.Type lineType
-        {
-            get { return m_LineType; }
-            set { if (PropertyUtil.SetStruct(ref m_LineType, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the width of line.
-        /// ||坐标轴线宽。
-        /// </summary>
-        public float lineWidth
-        {
-            get { return m_LineWidth; }
-            set { if (PropertyUtil.SetStruct(ref m_LineWidth, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the length of line.
-        /// ||坐标轴线长。
-        /// </summary>
-        public float lineLength
-        {
-            get { return m_LineLength; }
-            set { if (PropertyUtil.SetStruct(ref m_LineLength, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the color of line.
-        /// ||坐标轴线颜色。
-        /// </summary>
-        public Color32 lineColor
-        {
-            get { return m_LineColor; }
-            set { if (PropertyUtil.SetColor(ref m_LineColor, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the type of split line.
-        /// ||分割线线类型。
-        /// </summary>
-        public LineStyle.Type splitLineType
-        {
-            get { return m_SplitLineType; }
-            set { if (PropertyUtil.SetStruct(ref m_SplitLineType, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the width of split line.
-        /// ||分割线线宽。
-        /// </summary>
-        public float splitLineWidth
-        {
-            get { return m_SplitLineWidth; }
-            set { if (PropertyUtil.SetStruct(ref m_SplitLineWidth, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the length of split line.
-        /// ||分割线线长。
-        /// </summary>
-        public float splitLineLength
-        {
-            get { return m_SplitLineLength; }
-            set { if (PropertyUtil.SetStruct(ref m_SplitLineLength, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the color of split line.
-        /// ||分割线线颜色。
-        /// </summary>
-        public Color32 splitLineColor
-        {
-            get { return m_SplitLineColor; }
-            set { if (PropertyUtil.SetColor(ref m_SplitLineColor, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the color of minor split line.
-        /// ||次分割线线颜色。
-        /// </summary>
-        public Color32 minorSplitLineColor
-        {
-            get { return ChartHelper.IsClearColor(m_MinorSplitLineColor) ? ColorUtil.GetColor("#F4F7FD") : m_MinorSplitLineColor; }
-            set { if (PropertyUtil.SetColor(ref m_MinorSplitLineColor, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the length of tick.
-        /// ||刻度线线长。
-        /// </summary>
-        public float tickLength
-        {
-            get { return m_TickLength; }
-            set { if (PropertyUtil.SetStruct(ref m_TickLength, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the width of tick.
-        /// ||刻度线线宽。
-        /// </summary>
-        public float tickWidth
-        {
-            get { return m_TickWidth; }
-            set { if (PropertyUtil.SetStruct(ref m_TickWidth, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the color of tick.
-        /// ||坐标轴线颜色。
-        /// </summary>
-        public Color32 tickColor
-        {
-            get { return m_TickColor; }
-            set { if (PropertyUtil.SetColor(ref m_TickColor, value)) SetVerticesDirty(); }
-        }
-        /// <summary>
-        /// the colors of split area.
-        /// ||坐标轴分隔区域的颜色。
-        /// </summary>
-        public List<Color32> splitAreaColors
-        {
-            get { return m_SplitAreaColors; }
-            set { if (value != null) { m_SplitAreaColors = value; SetVerticesDirty(); } }
-        }
 
         public BaseAxisTheme(ThemeType theme) : base(theme)
         {
@@ -153,6 +37,7 @@ namespace XCharts.Runtime
             m_SplitLineLength = 0;
             m_TickWidth = XCSettings.axisTickWidth;
             m_TickLength = XCSettings.axisTickLength;
+
             switch (theme)
             {
                 case ThemeType.Default:
@@ -160,36 +45,253 @@ namespace XCharts.Runtime
                     m_TickColor = ColorUtil.GetColor("#6E7079");
                     m_SplitLineColor = ColorUtil.GetColor("#E0E6F1");
                     m_MinorSplitLineColor = ColorUtil.GetColor("#F4F7FD");
+
                     m_SplitAreaColors = new List<Color32>
                     {
-                        new Color32(250, 250, 250, 51),
-                        new Color32(210, 219, 238, 51)
+                        new(250, 250, 250, 51),
+                        new(210, 219, 238, 51)
                     };
+
                     break;
                 case ThemeType.Light:
                     m_LineColor = ColorUtil.GetColor("#6E7079");
                     m_TickColor = ColorUtil.GetColor("#6E7079");
                     m_SplitLineColor = ColorUtil.GetColor("#E0E6F1");
                     m_MinorSplitLineColor = ColorUtil.GetColor("#F4F7FD");
+
                     m_SplitAreaColors = new List<Color32>
                     {
-                        new Color32(250, 250, 250, 51),
-                        new Color32(210, 219, 238, 51)
+                        new(250, 250, 250, 51),
+                        new(210, 219, 238, 51)
                     };
+
                     break;
                 case ThemeType.Dark:
                     m_LineColor = ColorUtil.GetColor("#6E7079");
                     m_TickColor = ColorUtil.GetColor("#6E7079");
                     m_SplitLineColor = ColorUtil.GetColor("#E0E6F1");
                     m_MinorSplitLineColor = ColorUtil.GetColor("#F4F7FD");
+
                     m_SplitAreaColors = new List<Color32>
                     {
-                        new Color32(255, 255, 255, (byte) (0.02f * 255)),
-                        new Color32(210, 219, 238, (byte) (0.02f * 255))
+                        new(255, 255, 255, (byte) (0.02f * 255)),
+                        new(210, 219, 238, (byte) (0.02f * 255))
                     };
+
                     break;
             }
         }
+
+
+        /// <summary>
+        ///     the type of line.
+        ///     ||坐标轴线类型。
+        /// </summary>
+        public LineStyle.Type lineType
+        {
+            get => m_LineType;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_LineType, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the width of line.
+        ///     ||坐标轴线宽。
+        /// </summary>
+        public float lineWidth
+        {
+            get => m_LineWidth;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_LineWidth, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the length of line.
+        ///     ||坐标轴线长。
+        /// </summary>
+        public float lineLength
+        {
+            get => m_LineLength;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_LineLength, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the color of line.
+        ///     ||坐标轴线颜色。
+        /// </summary>
+        public Color32 lineColor
+        {
+            get => m_LineColor;
+            set
+            {
+                if (PropertyUtil.SetColor(ref m_LineColor, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the type of split line.
+        ///     ||分割线线类型。
+        /// </summary>
+        public LineStyle.Type splitLineType
+        {
+            get => m_SplitLineType;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_SplitLineType, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the width of split line.
+        ///     ||分割线线宽。
+        /// </summary>
+        public float splitLineWidth
+        {
+            get => m_SplitLineWidth;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_SplitLineWidth, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the length of split line.
+        ///     ||分割线线长。
+        /// </summary>
+        public float splitLineLength
+        {
+            get => m_SplitLineLength;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_SplitLineLength, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the color of split line.
+        ///     ||分割线线颜色。
+        /// </summary>
+        public Color32 splitLineColor
+        {
+            get => m_SplitLineColor;
+            set
+            {
+                if (PropertyUtil.SetColor(ref m_SplitLineColor, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the color of minor split line.
+        ///     ||次分割线线颜色。
+        /// </summary>
+        public Color32 minorSplitLineColor
+        {
+            get => ChartHelper.IsClearColor(m_MinorSplitLineColor) ? ColorUtil.GetColor("#F4F7FD") : m_MinorSplitLineColor;
+            set
+            {
+                if (PropertyUtil.SetColor(ref m_MinorSplitLineColor, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the length of tick.
+        ///     ||刻度线线长。
+        /// </summary>
+        public float tickLength
+        {
+            get => m_TickLength;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_TickLength, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the width of tick.
+        ///     ||刻度线线宽。
+        /// </summary>
+        public float tickWidth
+        {
+            get => m_TickWidth;
+            set
+            {
+                if (PropertyUtil.SetStruct(ref m_TickWidth, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the color of tick.
+        ///     ||坐标轴线颜色。
+        /// </summary>
+        public Color32 tickColor
+        {
+            get => m_TickColor;
+            set
+            {
+                if (PropertyUtil.SetColor(ref m_TickColor, value))
+                {
+                    SetVerticesDirty();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     the colors of split area.
+        ///     ||坐标轴分隔区域的颜色。
+        /// </summary>
+        public List<Color32> splitAreaColors
+        {
+            get => m_SplitAreaColors;
+            set
+            {
+                if (value != null)
+                {
+                    m_SplitAreaColors = value;
+                    SetVerticesDirty();
+                }
+            }
+        }
+
 
         public void Copy(BaseAxisTheme theme)
         {
@@ -209,29 +311,42 @@ namespace XCharts.Runtime
         }
     }
 
+
     [Serializable]
     public class AxisTheme : BaseAxisTheme
     {
-        public AxisTheme(ThemeType theme) : base(theme) { }
+        public AxisTheme(ThemeType theme) : base(theme)
+        {
+        }
     }
+
 
     [Serializable]
     public class RadiusAxisTheme : BaseAxisTheme
     {
-        public RadiusAxisTheme(ThemeType theme) : base(theme) { }
+        public RadiusAxisTheme(ThemeType theme) : base(theme)
+        {
+        }
     }
+
 
     [Serializable]
     public class AngleAxisTheme : BaseAxisTheme
     {
-        public AngleAxisTheme(ThemeType theme) : base(theme) { }
+        public AngleAxisTheme(ThemeType theme) : base(theme)
+        {
+        }
     }
+
 
     [Serializable]
     public class PolarAxisTheme : BaseAxisTheme
     {
-        public PolarAxisTheme(ThemeType theme) : base(theme) { }
+        public PolarAxisTheme(ThemeType theme) : base(theme)
+        {
+        }
     }
+
 
     [Serializable]
     public class RadarAxisTheme : BaseAxisTheme
@@ -239,19 +354,23 @@ namespace XCharts.Runtime
         public RadarAxisTheme(ThemeType theme) : base(theme)
         {
             m_SplitAreaColors.Clear();
+
             switch (theme)
             {
                 case ThemeType.Dark:
                     m_SplitAreaColors.Add(ThemeStyle.GetColor("#6f6f6f"));
                     m_SplitAreaColors.Add(ThemeStyle.GetColor("#606060"));
+
                     break;
                 case ThemeType.Default:
                     m_SplitAreaColors.Add(ThemeStyle.GetColor("#f6f6f6"));
                     m_SplitAreaColors.Add(ThemeStyle.GetColor("#e7e7e7"));
+
                     break;
                 case ThemeType.Light:
                     m_SplitAreaColors.Add(ThemeStyle.GetColor("#f6f6f6"));
                     m_SplitAreaColors.Add(ThemeStyle.GetColor("#e7e7e7"));
+
                     break;
             }
         }

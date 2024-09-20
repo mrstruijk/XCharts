@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using UnityEditor;
-using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using XCharts.Runtime;
-using ADB = UnityEditor.AssetDatabase;
+
 
 namespace XCharts.Editor
 {
@@ -20,6 +13,7 @@ namespace XCharts.Editor
             AddChart<PolarChart>("PolarChart");
         }
 
+
         [MenuItem("XCharts/PolarChart/Radial Bar", priority = 54)]
         [MenuItem("GameObject/UI/XCharts/PolarChart/Radial Bar", priority = 54)]
         public static void PolarChart_RadialBar()
@@ -27,6 +21,7 @@ namespace XCharts.Editor
             var chart = AddChart<PolarChart>("PolarChart");
             chart.DefaultRadialBarPolarChart();
         }
+
 
         [MenuItem("XCharts/PolarChart/Tangential Bar", priority = 54)]
         [MenuItem("GameObject/UI/XCharts/PolarChart/Tangential Bar", priority = 54)]
@@ -36,6 +31,7 @@ namespace XCharts.Editor
             chart.DefaultTangentialBarPolarChart();
         }
 
+
         [MenuItem("XCharts/PolarChart/Heatmap", priority = 54)]
         [MenuItem("GameObject/UI/XCharts/PolarChart/Heatmap", priority = 54)]
         public static void PolarChart_Heatmap()
@@ -43,7 +39,5 @@ namespace XCharts.Editor
             var chart = AddChart<PolarChart>("PolarChart");
             chart.DefaultHeatmapPolarChart();
         }
-
-
     }
 }

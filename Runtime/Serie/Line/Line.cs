@@ -1,4 +1,6 @@
 using System;
+using Random = UnityEngine.Random;
+
 
 namespace XCharts.Runtime
 {
@@ -15,21 +17,27 @@ namespace XCharts.Runtime
     {
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
+
+
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<Line>(serieName);
             serie.symbol.show = true;
             serie.animation.interaction.radius.value = 1.5f;
-            for (int i = 0; i < 5; i++)
+
+            for (var i = 0; i < 5; i++)
             {
-                chart.AddData(serie.index, UnityEngine.Random.Range(10, 90));
+                chart.AddData(serie.index, Random.Range(10, 90));
             }
+
             return serie;
         }
+
 
         public static Line ConvertSerie(Serie serie)
         {
             var newSerie = serie.Clone<Line>();
+
             return newSerie;
         }
     }

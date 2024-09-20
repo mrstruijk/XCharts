@@ -1,6 +1,7 @@
 using UnityEditor;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [ComponentEditor(typeof(Tooltip))]
@@ -21,6 +22,7 @@ namespace XCharts.Editor
             PropertyField("m_TitleFormatter");
             PropertyField("m_ItemFormatter");
             PropertyField("m_NumericFormatter");
+
             PropertyFiledMore(() =>
             {
                 PropertyField("m_TitleHeight");
@@ -39,6 +41,7 @@ namespace XCharts.Editor
                 PropertyField("m_MinHeight");
                 PropertyField("m_IgnoreDataDefaultContent");
             });
+
             PropertyField("m_LineStyle");
             PropertyField("m_TitleLabelStyle");
             PropertyListField("m_ContentLabelStyles");

@@ -3,26 +3,39 @@ using UnityEngine.UI;
 using XCharts.Runtime;
 using XUGL;
 
+
 namespace XCharts.Example
 {
     [DisallowMultipleComponent]
     [ExecuteInEditMode]
     public class Example12_CustomDrawing : MonoBehaviour
     {
-        LineChart chart;
-        void Awake()
+        private LineChart chart;
+
+
+        private void Awake()
         {
             chart = gameObject.GetComponent<LineChart>();
-            if (chart == null) return;
 
-            chart.onDraw = delegate(VertexHelper vh) { };
+            if (chart == null)
+            {
+                return;
+            }
+
+            chart.onDraw = delegate { };
             // or
-            chart.onDrawBeforeSerie = delegate(VertexHelper vh, Serie serie) { };
+            chart.onDrawBeforeSerie = delegate { };
+
             // or
             chart.onDrawAfterSerie = delegate(VertexHelper vh, Serie serie)
             {
-                if (serie.index != 0) return;
+                if (serie.index != 0)
+                {
+                    return;
+                }
+
                 var dataPoints = serie.context.dataPoints;
+
                 if (dataPoints.Count > 0)
                 {
                     var pos = dataPoints[3];
@@ -34,8 +47,9 @@ namespace XCharts.Example
                     UGL.DrawCricle(vh, pos, 5, Color.blue);
                 }
             };
+
             // or
-            chart.onDrawTop = delegate(VertexHelper vh) { };
+            chart.onDrawTop = delegate { };
         }
     }
 }

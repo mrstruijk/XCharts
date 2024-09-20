@@ -1,24 +1,28 @@
-using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
+
 
 namespace XCharts.Runtime
 {
-    [System.Serializable]
+    [Serializable]
     [SerieHandler(typeof(SimplifiedCandlestickHandler), true)]
     [DefaultAnimation(AnimationType.LeftToRight, false)]
     [DefaultTooltip(Tooltip.Type.Shadow, Tooltip.Trigger.Axis)]
-    [SerieComponent()]
-    [SerieDataComponent()]
-    [SerieDataExtraField()]
+    [SerieComponent]
+    [SerieDataComponent]
+    [SerieDataExtraField]
     public class SimplifiedCandlestick : Serie, INeedSerieContainer, ISimplifiedSerie
     {
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
 
+
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<SimplifiedCandlestick>(serieName);
             var lastValue = 50d;
-            for (int i = 0; i < 50; i++)
+
+            for (var i = 0; i < 50; i++)
             {
                 var open = lastValue;
                 var close = open + Random.Range(-20, 20);
@@ -29,12 +33,15 @@ namespace XCharts.Runtime
                 chart.AddData(serie.index, i, open, close, lowest, heighest);
                 lastValue = close;
             }
+
             return serie;
         }
+
 
         public static SimplifiedCandlestick ConvertSerie(Serie serie)
         {
             var newSerie = serie.Clone<SimplifiedCandlestick>();
+
             return newSerie;
         }
     }

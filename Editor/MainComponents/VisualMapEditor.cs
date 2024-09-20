@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [ComponentEditor(typeof(VisualMap))]
@@ -22,6 +23,7 @@ namespace XCharts.Editor
             PropertyField("m_WorkOnLine");
             PropertyField("m_WorkOnArea");
             PropertyField("m_ShowUI");
+
             if (baseProperty.FindPropertyRelative("m_ShowUI").boolValue)
             {
                 PropertyField("m_SelectedMode");
@@ -32,24 +34,34 @@ namespace XCharts.Editor
                 PropertyField("m_Calculable");
                 PropertyField("m_ItemWidth");
                 PropertyField("m_ItemHeight");
-                if (isPiece) PropertyField("m_ItemGap");
+
+                if (isPiece)
+                {
+                    PropertyField("m_ItemGap");
+                }
+
                 PropertyField("m_BorderWidth");
                 PropertyField("m_Orient");
                 PropertyField("m_Location");
             }
+
             PropertyListField("m_OutOfRange");
             PropertyListField("m_InRange");
             --EditorGUI.indentLevel;
         }
     }
 
+
     [CustomPropertyDrawer(typeof(VisualMapRange), true)]
     public class VisualMapRangeDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Range"; } }
+        public override string ClassName => "Range";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeFoldout(prop, "m_Color"))
             {
                 ++EditorGUI.indentLevel;

@@ -2,15 +2,19 @@ using UnityEditor;
 using UnityEngine;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     [CustomPropertyDrawer(typeof(Settings), true)]
     public class SettingsDrawer : BasePropertyDrawer
     {
-        public override string ClassName { get { return "Settings"; } }
+        public override string ClassName => "Settings";
+
+
         public override void OnGUI(Rect pos, SerializedProperty prop, GUIContent label)
         {
             base.OnGUI(pos, prop, label);
+
             if (MakeComponentFoldout(prop, "m_Show", false, new HeaderMenuInfo("Reset", () =>
                 {
                     var chart = prop.serializedObject.targetObject as BaseChart;
@@ -30,7 +34,7 @@ namespace XCharts.Editor
                 PropertyField(prop, "m_CicleSmoothness");
                 PropertyField(prop, "m_AxisMaxSplitNumber");
                 PropertyField(prop, "m_LegendIconLineWidth");
-                PropertyListField(prop, "m_LegendIconCornerRadius", true);
+                PropertyListField(prop, "m_LegendIconCornerRadius");
                 --EditorGUI.indentLevel;
             }
         }

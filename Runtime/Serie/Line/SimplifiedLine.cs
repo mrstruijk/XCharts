@@ -1,5 +1,6 @@
 using System;
-using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 namespace XCharts.Runtime
 {
@@ -10,32 +11,42 @@ namespace XCharts.Runtime
     [DefaultAnimation(AnimationType.LeftToRight, false)]
     [DefaultTooltip(Tooltip.Type.Line, Tooltip.Trigger.Axis)]
     [SerieComponent(typeof(AreaStyle))]
-    [SerieDataComponent()]
-    [SerieDataExtraField()]
+    [SerieDataComponent]
+    [SerieDataExtraField]
     public class SimplifiedLine : Serie, INeedSerieContainer, ISimplifiedSerie
     {
         public int containerIndex { get; internal set; }
         public int containterInstanceId { get; internal set; }
+
 
         public static Serie AddDefaultSerie(BaseChart chart, string serieName)
         {
             var serie = chart.AddSerie<SimplifiedLine>(serieName);
             serie.symbol.show = false;
             var lastValue = 0d;
-            for (int i = 0; i < 50; i++)
+
+            for (var i = 0; i < 50; i++)
             {
                 if (i < 20)
-                    lastValue += UnityEngine.Random.Range(0, 5);
+                {
+                    lastValue += Random.Range(0, 5);
+                }
                 else
-                    lastValue += UnityEngine.Random.Range(-3, 5);
+                {
+                    lastValue += Random.Range(-3, 5);
+                }
+
                 chart.AddData(serie.index, lastValue);
             }
+
             return serie;
         }
+
 
         public static SimplifiedLine ConvertSerie(Serie serie)
         {
             var newSerie = serie.Clone<SimplifiedLine>();
+
             return newSerie;
         }
     }

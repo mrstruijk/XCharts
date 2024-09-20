@@ -1,17 +1,15 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-using XUGL;
+
 
 namespace XCharts.Runtime
 {
     public class TooltipData
     {
         public string title;
-        public List<SerieParams> param = new List<SerieParams>();
+        public List<SerieParams> param = new();
     }
+
 
     public class TooltipContext
     {
@@ -22,6 +20,6 @@ namespace XCharts.Runtime
         public int xAxisClickIndex = -1;
         public Tooltip.Type type;
         public Tooltip.Trigger trigger;
-        public TooltipData data = new TooltipData();
+        public TooltipData data = new();
     }
 }

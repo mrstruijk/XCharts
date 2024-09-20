@@ -6,26 +6,31 @@ using UnityEditor;
 using UnityEngine.Assertions;
 using XCharts.Runtime;
 
+
 namespace XCharts.Editor
 {
     public sealed class SerieListEditor
     {
-        public BaseChart chart { get; private set; }
-        BaseChartEditor m_BaseEditor;
+        private readonly BaseChartEditor m_BaseEditor;
 
-        SerializedObject m_SerializedObject;
-        List<SerializedProperty> m_SeriesProperty;
-        SerializedProperty m_EnableProperty;
+        private SerializedObject m_SerializedObject;
+        private List<SerializedProperty> m_SeriesProperty;
+        private SerializedProperty m_EnableProperty;
 
-        Dictionary<Type, Type> m_EditorTypes;
-        List<SerieBaseEditor> m_Editors;
+        private Dictionary<Type, Type> m_EditorTypes;
+        private List<SerieBaseEditor> m_Editors;
         private bool m_SerieFoldout;
+
 
         public SerieListEditor(BaseChartEditor editor)
         {
             Assert.IsNotNull(editor);
             m_BaseEditor = editor;
         }
+
+
+        public BaseChart chart { get; private set; }
+
 
         public void Init(BaseChart chart, SerializedObject serializedObject, List<SerializedProperty> componentProps)
         {
@@ -40,7 +45,8 @@ namespace XCharts.Editor
             m_EditorTypes = new Dictionary<Type, Type>();
 
             var editorTypes = RuntimeUtil.GetAllTypesDerivedFrom<SerieBaseEditor>()
-                .Where(t => t.IsDefined(typeof(SerieEditorAttribute), false) && !t.IsAbstract);
+                                         .Where(t => t.IsDefined(typeof(SerieEditorAttribute), false) && !t.IsAbstract);
+
             foreach (var editorType in editorTypes)
             {
                 var attribute = editorType.GetAttribute<SerieEditorAttribute>();
@@ -50,31 +56,42 @@ namespace XCharts.Editor
             RefreshEditors();
         }
 
+
         public void UpdateSeriesProperty(List<SerializedProperty> componentProps)
         {
             m_SeriesProperty = componentProps;
             RefreshEditors();
         }
 
+
         public void Clear()
         {
             if (m_Editors == null)
+            {
                 return;
+            }
 
             foreach (var editor in m_Editors)
+            {
                 editor.OnDisable();
+            }
 
             m_Editors.Clear();
             m_EditorTypes.Clear();
         }
 
+
         public void OnGUI()
         {
             if (chart == null)
+            {
                 return;
+            }
+
             if (chart.debug.foldSeries)
             {
                 m_SerieFoldout = ChartEditorHelper.DrawHeader("Series", m_SerieFoldout, false, null, null);
+
                 if (m_SerieFoldout)
                 {
                     DrawSeries();
@@ -86,39 +103,48 @@ namespace XCharts.Editor
             }
         }
 
-        void DrawSeries()
+
+        private void DrawSeries()
         {
-            for (int i = 0; i < m_Editors.Count; i++)
+            for (var i = 0; i < m_Editors.Count; i++)
             {
                 var editor = m_Editors[i];
-                string title = editor.GetDisplayTitle();
-                bool displayContent = ChartEditorHelper.DrawHeader(
+                var title = editor.GetDisplayTitle();
+
+                var displayContent = ChartEditorHelper.DrawHeader(
                     title,
                     editor.baseProperty,
                     editor.showProperty,
                     editor.menus);
+
                 if (displayContent)
                 {
                     editor.OnInternalInspectorGUI();
                 }
             }
+
             if (m_Editors.Count <= 0)
             {
                 EditorGUILayout.HelpBox("No serie.", MessageType.Info);
             }
         }
 
-        void RefreshEditors()
+
+        private void RefreshEditors()
         {
             m_SerializedObject.UpdateIfRequiredOrScript();
+
             foreach (var editor in m_Editors)
+            {
                 editor.OnDisable();
+            }
 
             m_Editors.Clear();
 
-            for (int i = 0; i < chart.series.Count; i++)
+            for (var i = 0; i < chart.series.Count; i++)
             {
                 var serie = chart.series[i];
+
                 if (serie != null)
                 {
                     CreateEditor(serie, m_SeriesProperty[i]);
@@ -126,26 +152,31 @@ namespace XCharts.Editor
             }
         }
 
-        void CreateEditor(Serie serie, SerializedProperty property, int index = -1)
+
+        private void CreateEditor(Serie serie, SerializedProperty property, int index = -1)
         {
             var id = index >= 0 ? index : m_Editors.Count;
             var settingsType = serie.GetType();
             Type editorType;
 
             if (!m_EditorTypes.TryGetValue(settingsType, out editorType))
+            {
                 editorType = typeof(SerieBaseEditor);
+            }
+
             var editor = (SerieBaseEditor) Activator.CreateInstance(editorType);
             editor.Init(chart, serie, property, m_BaseEditor);
             editor.menus.Clear();
-            editor.menus.Add(new HeaderMenuInfo("Clone", () =>
-            {
-                CloneSerie(editor.serie);
-            }));
+            editor.menus.Add(new HeaderMenuInfo("Clone", () => { CloneSerie(editor.serie); }));
+
             editor.menus.Add(new HeaderMenuInfo("Remove", () =>
             {
                 if (EditorUtility.DisplayDialog("", "Sure remove serie?", "Yes", "Cancel"))
+                {
                     RemoveSerieEditor(id);
+                }
             }));
+
             editor.menus.Add(new HeaderMenuInfo("Move Down", () =>
             {
                 if (chart.MoveDownSerie(id))
@@ -154,6 +185,7 @@ namespace XCharts.Editor
                     RefreshEditors();
                 }
             }));
+
             editor.menus.Add(new HeaderMenuInfo("Move Up", () =>
             {
                 if (chart.MoveUpSerie(id))
@@ -162,6 +194,7 @@ namespace XCharts.Editor
                     RefreshEditors();
                 }
             }));
+
             editor.menus.Add(new HeaderMenuInfo("Reset Data Index", () =>
             {
                 if (chart.ResetDataIndex(id))
@@ -169,19 +202,20 @@ namespace XCharts.Editor
                     RefreshEditors();
                 }
             }));
+
             foreach (var type in GetConvertToSerie(editor.serie.GetType()))
             {
-                editor.menus.Add(new HeaderMenuInfo("Convert to " + type.Name, () =>
-                {
-                    ConvertSerie(editor.serie, type);
-                }));
+                editor.menus.Add(new HeaderMenuInfo("Convert to " + type.Name, () => { ConvertSerie(editor.serie, type); }));
             }
+
             if (editor.serie.GetType().IsDefined(typeof(SerieComponentAttribute), false))
             {
                 var attribute = editor.serie.GetType().GetAttribute<SerieComponentAttribute>();
+
                 foreach (var type in attribute.types)
                 {
                     var size = editor.FindProperty(Serie.extraComponentMap[type]).arraySize;
+
                     editor.menus.Add(new HeaderMenuInfo("Add " + type.Name, () =>
                     {
                         editor.serie.EnsureComponent(type);
@@ -190,9 +224,11 @@ namespace XCharts.Editor
                         EditorUtility.SetDirty(chart);
                     }, size == 0));
                 }
+
                 foreach (var type in attribute.types)
                 {
                     var size = editor.FindProperty(Serie.extraComponentMap[type]).arraySize;
+
                     editor.menus.Add(new HeaderMenuInfo("Remove " + type.Name, () =>
                     {
                         editor.serie.RemoveComponent(type);
@@ -202,19 +238,27 @@ namespace XCharts.Editor
                     }, size > 0));
                 }
             }
+
             if (index < 0)
+            {
                 m_Editors.Add(editor);
+            }
             else
+            {
                 m_Editors[index] = editor;
+            }
         }
+
 
         public void AddSerie(Type type)
         {
             m_SerializedObject.Update();
             var serieName = chart.GenerateDefaultSerieName();
+
             type.InvokeMember("AddDefaultSerie",
                 BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.Public, null, null,
-                new object[] { chart, serieName });
+                new object[] {chart, serieName});
+
             m_SerializedObject.Update();
             m_SerializedObject.ApplyModifiedProperties();
             m_SeriesProperty = m_BaseEditor.RefreshSeries();
@@ -224,12 +268,14 @@ namespace XCharts.Editor
             AssetDatabase.Refresh();
         }
 
+
         public void ConvertSerie(Serie serie, Type type)
         {
             chart.ConvertSerie(serie, type);
             m_SeriesProperty = m_BaseEditor.RefreshSeries();
             RefreshEditors();
         }
+
 
         public void CloneSerie(Serie serie)
         {
@@ -239,6 +285,7 @@ namespace XCharts.Editor
             m_SeriesProperty = m_BaseEditor.RefreshSeries();
             RefreshEditors();
         }
+
 
         private void RemoveSerieEditor(int id)
         {
@@ -254,21 +301,29 @@ namespace XCharts.Editor
             AssetDatabase.Refresh();
         }
 
+
         private List<Type> GetConvertToSerie(Type serie)
         {
             var list = new List<Type>();
             var typeMap = RuntimeUtil.GetAllTypesDerivedFrom<Serie>();
+
             foreach (var kvp in typeMap)
             {
                 var type = kvp;
+
                 if (type.IsDefined(typeof(SerieConvertAttribute), false))
                 {
                     var attribute = type.GetAttribute<SerieConvertAttribute>();
+
                     if (attribute != null && attribute.Contains(serie))
+                    {
                         list.Add(type);
+                    }
                 }
             }
+
             list.Sort((a, b) => { return a.Name.CompareTo(b.Name); });
+
             return list;
         }
     }

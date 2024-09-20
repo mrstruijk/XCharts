@@ -1,9 +1,10 @@
-using System;
-using UnityEngine;
+using UnityEngine.Scripting;
+
 
 namespace XCharts.Runtime
 {
-    [UnityEngine.Scripting.Preserve]
+    [Preserve]
     internal sealed class CalendarCoordHandler : MainComponentHandler<CalendarCoord>
-    { }
+    {
+    }
 }

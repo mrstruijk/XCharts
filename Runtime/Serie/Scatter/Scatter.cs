@@ -1,8 +1,10 @@
-using UnityEngine;
+using System;
+using Random = UnityEngine.Random;
+
 
 namespace XCharts.Runtime
 {
-    [System.Serializable]
+    [Serializable]
     [SerieHandler(typeof(ScatterHandler), true)]
     [CoordOptions(typeof(GridCoord), typeof(SingleAxisCoord))]
     [DefaultTooltip(Tooltip.Type.None, Tooltip.Trigger.Item)]
@@ -18,10 +20,12 @@ namespace XCharts.Runtime
             serie.symbol.type = SymbolType.Circle;
             serie.itemStyle.opacity = 0.8f;
             serie.clip = false;
-            for (int i = 0; i < 10; i++)
+
+            for (var i = 0; i < 10; i++)
             {
                 chart.AddData(serie.index, Random.Range(10, 100), Random.Range(10, 100));
             }
+
             return serie;
         }
     }

@@ -1,6 +1,10 @@
+using UnityEngine.Scripting;
+
+
 namespace XCharts.Runtime
 {
-    [UnityEngine.Scripting.Preserve]
+    [Preserve]
     internal sealed class ScatterHandler : BaseScatterHandler<Scatter>
-    { }
+    {
+    }
 }
