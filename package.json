@@ -3,11 +3,11 @@
   "displayName": "XCharts",
   "author": "monitor1394",
   "license": "MIT",
-  "version": "3.11.2",
+  "version": "3.11.3",
   "date": "20240801",
   "checkdate": "20240801",
   "unity": "2018.3",
-  "description": "A charting and data visualization library for Unity. Support line chart, bar chart, pie chart, radar chart, scatter chart, heatmap chart, ring chart, candlestick chart, polar chart and parallel coordinates.",
+  "description": "A fork of the XCharts charting and data visualization library for Unity. Support line chart, bar chart, pie chart, radar chart, scatter chart, heatmap chart, ring chart, candlestick chart, polar chart and parallel coordinates.",
   "keywords": [
     "chart",
     "charts",
@@ -18,7 +18,7 @@
   "category": "chart",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/XCharts-Team/XCharts.git"
+    "url": "git+https://github.com/mrstruijk/XCharts.git"
   },
   "bugs": {
     "url": "https://github.com/XCharts-Team/XCharts/issues"
